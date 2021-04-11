@@ -3,7 +3,7 @@ import { APP_NAME, Route as r } from "../constants/app"
 import { HeaderButtons, Item } from "react-navigation-header-buttons"
 import { HeaderIcon } from "../components/ui/HeaderIcon"
 import { Container } from "../components/ui/Container"
-import { Ionicons } from "@expo/vector-icons"
+import Ionicons from 'react-native-vector-icons/Ionicons'
 import { AdvertisementList } from "../components/AdvertisementList"
 
 const data = [

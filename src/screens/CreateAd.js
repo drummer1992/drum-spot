@@ -10,7 +10,7 @@ import {
   Keyboard,
 } from "react-native"
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { MaterialCommunityIcons } from "@expo/vector-icons"
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons"
 import { Card } from "../components/ui/Card"
 import { Color as c } from "../constants/app"
 

@@ -10,7 +10,7 @@ export const Route = {
     title: 'Нове оголошення',
   },
   advertisementDetails: {
-    name : 'AdvertisementDetails',
+    name: 'AdvertisementDetails',
   },
   ownAdvertisements   : {
     name : 'OwnAdvertisements',
@@ -23,6 +23,10 @@ export const Route = {
   favorites           : {
     name : 'Favorites',
     title: 'Вибране',
+  },
+  profile             : {
+    name : 'Profile',
+    title: 'Профіль',
   }
 }
 

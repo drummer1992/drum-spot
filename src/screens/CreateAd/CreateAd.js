@@ -11,7 +11,7 @@ import { Color as c, Route as r } from "../../constants/app"
 import { PhotoArea } from "./PhotoArea"
 import { Input, InputHeader } from "../../components/ui/Input"
 import { AdvertisementFlags } from "./AdvertisementFlags"
-import { array, maxLength, min, minLength, required } from "../../../errors/validator/validators"
+import { array, max, maxLength, min, minLength, required } from "../../../errors/validator/validators"
 import { createValidator } from "../../../errors/validator"
 import { useDispatch } from "react-redux"
 import { createAdvertisement } from "../../redux/actions/advertisement"
@@ -27,6 +27,7 @@ const validate = createValidator({
   price  : [
     required('Ціна не може бути пуста!'),
     min(1, 'Ціна повинна мати позитивне значення!'),
+    max(1e6, 'Якась захмарна ціна!'),
   ],
   city   : [
     required('Місто є обов`язковим до заповнення!'),
@@ -166,5 +167,5 @@ const styles = StyleSheet.create({
     height       : 50,
     alignItems   : 'center',
   },
-  inputContainer: { marginTop: 10 },
+  inputContainer             : { marginTop: 10 },
 })

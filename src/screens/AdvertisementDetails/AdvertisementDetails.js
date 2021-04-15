@@ -32,7 +32,7 @@ export const AdvertisementDetails = ({ route }) => {
             images={item.images}
             setActive={setActive}
             active={active}
-            resizeMode="contain"
+            resizeMode="cover"
             ImageStyle={{ borderRadius: 6 }}
           />
         </Card>
@@ -49,20 +49,15 @@ export const AdvertisementDetails = ({ route }) => {
             <ValueBox title="Ціна" value={`${item.price} грн`}/>
           </View>
         </Card>
-        <Card style={{
-          width    : '100%',
-          minHeight: 150,
-          alignSelf: 'center',
-          marginTop: 10,
-        }}>
-          <View style={{ marginLeft: 10, marginTop: 10 }}>
+        <Card style={styles.detailsContainer}>
+          <View style={styles.detailsTextContainer}>
             <BoldText style={{ fontSize: 20 }}>Деталі:</BoldText>
             <View style={{ marginTop: 10 }}>
               <RegularText style={{ marginLeft: 5 }}>{item.details}</RegularText>
             </View>
           </View>
         </Card>
-        <View style={{ margin: 20 }}>
+        <View style={styles.buttonContainer}>
           <Button
             title="Зв'язатися з автором"
             color={c.primary}
@@ -118,5 +113,23 @@ const styles = StyleSheet.create({
   valueTextContainer         : {
     marginHorizontal: 5,
     flexDirection   : 'row',
+  },
+  detailsContainer           : {
+    width    : '100%',
+    minHeight: 150,
+    alignSelf: 'center',
+    marginTop: 10,
+  },
+  detailsTextContainer       : {
+    marginLeft: 10,
+    marginTop : 10,
+  },
+  buttonContainer            : {
+    marginVertical  : 20,
+    marginHorizontal: 5,
+  },
+  button                     : {
+    borderColor: c.primary,
+    width      : '100%',
   }
 })

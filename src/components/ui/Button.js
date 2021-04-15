@@ -8,7 +8,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignSelf     : 'center',
     width         : '50%',
-    borderWidth   : 1,
   }
 })
 

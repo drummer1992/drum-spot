@@ -1,6 +1,45 @@
 import { uuidV4 } from "../utils/random"
 
+const token = 'secret'
+
+class RequestError extends Error {
+  constructor(error) {
+    super()
+
+    this.message = error.message
+    this.code = error.code
+    this.status = error.status
+  }
+}
+
 export class DrumSpotAPI {
+  static async getProfile(userToken) {
+    if (userToken === token) {
+      return {
+        id  : Date.now(),
+        name: 'Andrii Varlamov',
+      }
+    }
+
+    throw new RequestError({
+      message: 'Unauthorized',
+      code   : 401,
+      status : 401,
+    })
+  }
+
+  static async singIn(password) {
+    if (password !== 'foo') {
+      throw new RequestError({
+        message: 'Unauthorized',
+        code   : 401,
+        status : 401,
+      })
+    }
+
+    return { token }
+  }
+
   static async createAdvertisement(data) {
     return {
       id     : uuidV4(),

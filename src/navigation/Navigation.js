@@ -7,12 +7,13 @@ import { HomeScreen, homeScreenOptions } from "../screens/Home/Home"
 import { CreateAdScreen } from "../screens/CreateAd/CreateAd"
 import { Platform, Text } from "react-native"
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons"
-import Ionicons from "react-native-vector-icons/Ionicons"
 import { Chat } from "../screens/Chat"
 import { Favorites } from "../screens/Favorites"
 import { AdvertisementDetails, advertisementOptions } from "../screens/AdvertisementDetails/AdvertisementDetails"
+import { Profile } from "../screens/Profile/Profile"
 
 const HomeStack = createStackNavigator()
+const ProfileStack = createStackNavigator()
 const CreateAdStack = createStackNavigator()
 const Tab = createBottomTabNavigator()
 
@@ -80,6 +81,18 @@ const HomeStackScreen = () => {
   )
 }
 
+const ProfileStackScreen = () => {
+  return (
+    <ProfileStack.Navigator>
+      <ProfileStack.Screen
+        name={r.profile.name}
+        component={Profile}
+        options={{ title: r.profile.title, ...defaultNavigationOptions }}
+      />
+    </ProfileStack.Navigator>
+  )
+}
+
 const CreateAdStackScreen = () => {
   return (
     <CreateAdStack.Navigator>
@@ -116,11 +129,11 @@ export const Navigation = () => {
         />
         <Tab.Screen
           name={r.ownAdvertisements.name}
-          component={HomeStackScreen}
+          component={ProfileStackScreen}
           options={tabBarIconOptions({
-            title        : r.ownAdvertisements.title,
-            name         : 'clipboard',
-            IconComponent: Ionicons,
+            title        : r.profile.title,
+            name         : 'account',
+            IconComponent: MaterialCommunityIcons,
           })}
         />
       </Tab.Navigator>

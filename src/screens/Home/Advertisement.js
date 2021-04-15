@@ -52,28 +52,27 @@ const styles = StyleSheet.create({
     height        : 220,
     marginVertical: 6,
   },
-  image   : {
+  image    : {
     borderTopLeftRadius : 6,
     borderTopRightRadius: 6,
     width               : '100%',
     height              : '80%',
   },
-  avatar  : {
-    left  : 5,
-    bottom: 20,
+  avatar   : {
+    left    : 5,
+    bottom  : 20,
   },
-  footer  : {
+  footer   : {
     flexDirection: 'row',
   },
-  textArea: {
+  textArea : {
     flexDirection   : 'row',
     alignItems      : 'center',
     marginHorizontal: 10,
     marginBottom    : 10,
-    width           : '95%',
-    overflow        : 'hidden'
+    width           : '85%',
   },
-  text    : {
+  text     : {
     width   : '63%',
     overflow: 'hidden',
   }

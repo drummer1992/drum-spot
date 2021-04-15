@@ -3,14 +3,14 @@ import { createStackNavigator } from '@react-navigation/stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { NavigationContainer } from '@react-navigation/native'
 import { Color as c, Route as r } from "../constants/app"
-import { HomeScreen, homeScreenOptions } from "../screens/Home"
-import { CreateAdScreen } from "../screens/CreateAd"
+import { HomeScreen, homeScreenOptions } from "../screens/Home/Home"
+import { CreateAdScreen } from "../screens/CreateAd/CreateAd"
 import { Platform, Text } from "react-native"
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons"
 import Ionicons from "react-native-vector-icons/Ionicons"
-import { TabBarIcon } from "../components/TabBarIcon"
 import { Chat } from "../screens/Chat"
 import { Favorites } from "../screens/Favorites"
+import { AdvertisementDetails, advertisementOptions } from "../screens/AdvertisementDetails/AdvertisementDetails"
 
 const HomeStack = createStackNavigator()
 const CreateAdStack = createStackNavigator()
@@ -27,6 +27,12 @@ const defaultNavigationOptions = {
     android: '#fff',
     ios    : c.primary,
   }),
+}
+
+const TabBarIcon = ({ focused, size, color, name, IconComponent }) => {
+  const iconName = `${name}${!focused ? '-outline' : ''}`
+
+  return <IconComponent size={size} name={iconName} color={color}/>
 }
 
 const tabBarIconOptions = ({ title, IconComponent, name }) => ({
@@ -48,8 +54,16 @@ const HomeStackScreen = () => {
         name={r.home.name}
         component={HomeScreen}
         options={props => ({
-          ...homeScreenOptions(props),
           ...defaultNavigationOptions,
+          ...homeScreenOptions(props),
+        })}
+      />
+      <HomeStack.Screen
+        name={r.advertisementDetails.name}
+        component={AdvertisementDetails}
+        options={props => ({
+          ...defaultNavigationOptions,
+          ...advertisementOptions(props),
         })}
       />
       <HomeStack.Screen

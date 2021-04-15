@@ -1,23 +1,26 @@
 export const APP_NAME = 'DrumSpot'
 
 export const Route = {
-  home             : {
+  home                : {
     name : 'Home',
     title: 'Головна'
   },
-  createAd         : {
+  createAd            : {
     name : 'CreateAd',
     title: 'Нове оголошення',
   },
-  ownAdvertisements: {
+  advertisementDetails: {
+    name : 'AdvertisementDetails',
+  },
+  ownAdvertisements   : {
     name : 'OwnAdvertisements',
     title: 'Мої оголошення',
   },
-  chat             : {
+  chat                : {
     name : 'Chat',
     title: 'Чат',
   },
-  favorites             : {
+  favorites           : {
     name : 'Favorites',
     title: 'Вибране',
   }

@@ -16,8 +16,9 @@ export class DrumSpotAPI {
   static async getProfile(userToken) {
     if (userToken === token) {
       return {
-        id  : Date.now(),
-        name: 'Andrii Varlamov',
+        id      : Date.now(),
+        name    : 'Andrii Varlamov',
+        imageURL: require('../../assets/ava.jpeg'),
       }
     }
 

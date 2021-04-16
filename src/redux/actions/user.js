@@ -1,19 +1,13 @@
 import { Type as t } from "../types"
 
 export const fetchProfile = ({ token }) => ({
-  type: t.FETCH_USER,
+  type   : t.FETCH_USER,
   apiCall: api => api.getProfile(token)
 })
 
-export const signIn = () => dispatch => ({
-  type: t.SIGN_IN_USER,
-  apiCall: async api => {
-    const response = await api.signInByFb()
+export const logOut = { type: t.LOG_OUT_USER }
 
-    alert(JSON.stringify(response))
-
-    dispatch(fetchProfile(response))
-
-    return response
-  }
-})
+export const signIn = {
+  type   : t.SIGN_IN_USER,
+  apiCall: api => api.signInByFb()
+}

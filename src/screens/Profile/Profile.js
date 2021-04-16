@@ -9,12 +9,12 @@ import { Button } from "../../components/ui/Button"
 import { useDispatch, useSelector } from "react-redux"
 import { selectUser } from "../../redux/reducers/user"
 import { useNavigation } from "@react-navigation/native"
-import { signIn } from "../../redux/actions/user"
+import { logOut, signIn } from "../../redux/actions/user"
 
 const NavigationRow = ({ children, name, params, icon, onPress }) => {
   const navigation = useNavigation()
 
-  const handlePress= onPress || (
+  const handlePress = onPress || (
     () => navigation.navigate({ name, params })
   )
 
@@ -34,11 +34,17 @@ const NavigationRow = ({ children, name, params, icon, onPress }) => {
 }
 
 const LoggedInProfileScreen = () => {
+  const dispatch = useDispatch()
+
+  const handleLogout = () => dispatch(logOut)
+
+  const { name, imageURL } = useSelector(selectUser)
+
   return (
     <React.Fragment>
       <View style={styles.headerContainer}>
         <View style={styles.avatarContainer}>
-          <Avatar size={120} src={require('../../../assets/ava.jpeg')}/>
+          <Avatar size={120} src={imageURL}/>
         </View>
         <View style={[styles.drumIconContainer, {
           transform: [{ rotate: '340deg' }]
@@ -48,7 +54,7 @@ const LoggedInProfileScreen = () => {
       </View>
       <View style={styles.titleContainer}>
         <View style={styles.title}>
-          <BoldText style={{ fontSize: 35 }}>Вітаю Andrii Varlamov</BoldText>
+          <BoldText style={{ fontSize: 35 }}>Вітаю {name}</BoldText>
         </View>
       </View>
       <View style={{ width: '100%' }}>
@@ -59,8 +65,11 @@ const LoggedInProfileScreen = () => {
       </View>
       <View style={{ width: '90%' }}>
         <Button
-          style={styles.button} color={c.primary} onPress={() => {
-        }} title="Вийти"/>
+          style={styles.button}
+          color={c.primary}
+          onPress={handleLogout}
+          title="Вийти"
+        />
       </View>
     </React.Fragment>
   )
@@ -69,7 +78,7 @@ const LoggedInProfileScreen = () => {
 const LoggedOutProfileScreen = () => {
   const dispatch = useDispatch()
 
-  const handleLogin = () => dispatch(signIn())
+  const handleLogin = () => dispatch(signIn)
 
   return (
     <React.Fragment>
@@ -84,13 +93,13 @@ const LoggedOutProfileScreen = () => {
             Це місце де ви можете продати чи купити, орендувати чи здати в оренду свій барабаний стаф
           </RegularText>
         </View>
-        <View style={[{ ...styles.drumIconContainer, right: 30 }, {
+        <View style={[{ ...styles.drumIconContainer, right: 27 }, {
           transform: [{ rotate: '340deg' }]
         }]}>
           <FontAwesome name="drum" size={200} color={c.primary}/>
         </View>
       </View>
-      <View style={{ width: '100%', marginVertical: 80 }}>
+      <View style={{ width: '100%', marginVertical: '30%' }}>
         <NavigationRow onPress={handleLogin} icon="facebook-square">Увійти</NavigationRow>
         <NavigationRow name={r.about.name}>Про додаток</NavigationRow>
         <NavigationRow name={r.home.name}>На головну</NavigationRow>
@@ -107,7 +116,7 @@ export const Profile = () => {
     : LoggedOutProfileScreen
 
   return (
-    <ScrollView contentContainerStyle={{ height: '100%' }}>
+    <ScrollView>
       <Card style={styles.container}>
         <ProfileScreen/>
       </Card>
@@ -117,10 +126,11 @@ export const Profile = () => {
 
 const styles = StyleSheet.create({
   container        : {
+    flex          : 1,
+    height        : '100%',
     alignItems    : 'center',
     overflow      : 'hidden',
     marginVertical: 5,
-    height: '98%'
   },
   headerContainer  : {
     flexDirection: 'row',

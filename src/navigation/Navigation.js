@@ -12,6 +12,7 @@ import { Favorites } from "../screens/Favorites/Favorites"
 import { AdvertisementDetails, advertisementOptions } from "../screens/Home/AdvertisementDetails"
 import { Profile } from "../screens/Profile/Profile"
 import { About } from "../screens/Profile/About"
+import { UserProvider } from "../providers/UserProvider"
 
 const HomeStack = createStackNavigator()
 const ProfileStack = createStackNavigator()
@@ -114,35 +115,37 @@ const CreateAdStackScreen = () => {
 export const Navigation = () => {
   return (
     <NavigationContainer>
-      <Tab.Navigator initialRouteName={r.home.name}>
-        <Tab.Screen
-          name={r.home.name}
-          component={HomeStackScreen}
-          options={tabBarIconOptions({
-            title        : r.home.title,
-            name         : 'home-circle',
-            IconComponent: MaterialCommunityIcons,
-          })}
-        />
-        <Tab.Screen
-          name={r.createAd.name}
-          component={CreateAdStackScreen}
-          options={tabBarIconOptions({
-            title        : r.createAd.title,
-            name         : 'plus-circle',
-            IconComponent: MaterialCommunityIcons
-          })}
-        />
-        <Tab.Screen
-          name={r.ownAdvertisements.name}
-          component={ProfileStackScreen}
-          options={tabBarIconOptions({
-            title        : r.profile.title,
-            name         : 'account',
-            IconComponent: MaterialCommunityIcons,
-          })}
-        />
-      </Tab.Navigator>
+      <UserProvider>
+        <Tab.Navigator initialRouteName={r.home.name}>
+          <Tab.Screen
+            name={r.home.name}
+            component={HomeStackScreen}
+            options={tabBarIconOptions({
+              title        : r.home.title,
+              name         : 'home-circle',
+              IconComponent: MaterialCommunityIcons,
+            })}
+          />
+          <Tab.Screen
+            name={r.createAd.name}
+            component={CreateAdStackScreen}
+            options={tabBarIconOptions({
+              title        : r.createAd.title,
+              name         : 'plus-circle',
+              IconComponent: MaterialCommunityIcons
+            })}
+          />
+          <Tab.Screen
+            name={r.ownAdvertisements.name}
+            component={ProfileStackScreen}
+            options={tabBarIconOptions({
+              title        : r.profile.title,
+              name         : 'account',
+              IconComponent: MaterialCommunityIcons,
+            })}
+          />
+        </Tab.Navigator>
+      </UserProvider>
     </NavigationContainer>
   )
 }

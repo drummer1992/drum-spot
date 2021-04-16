@@ -27,6 +27,14 @@ export const Route = {
   profile             : {
     name : 'Profile',
     title: 'Профіль',
+  },
+  about               : {
+    name : 'About',
+    title: 'Про додаток',
+  },
+  auth                : {
+    name : 'Auth',
+    title: 'Авторизація'
   }
 }
 

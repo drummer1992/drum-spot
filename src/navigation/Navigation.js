@@ -7,10 +7,11 @@ import { HomeScreen, homeScreenOptions } from "../screens/Home/Home"
 import { CreateAdScreen } from "../screens/CreateAd/CreateAd"
 import { Platform, Text } from "react-native"
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons"
-import { Chat } from "../screens/Chat"
-import { Favorites } from "../screens/Favorites"
-import { AdvertisementDetails, advertisementOptions } from "../screens/AdvertisementDetails/AdvertisementDetails"
+import { Chat } from "../screens/Chat/Chat"
+import { Favorites } from "../screens/Favorites/Favorites"
+import { AdvertisementDetails, advertisementOptions } from "../screens/Home/AdvertisementDetails"
 import { Profile } from "../screens/Profile/Profile"
+import { About } from "../screens/Profile/About"
 
 const HomeStack = createStackNavigator()
 const ProfileStack = createStackNavigator()
@@ -89,6 +90,11 @@ const ProfileStackScreen = () => {
         component={Profile}
         options={{ title: r.profile.title, ...defaultNavigationOptions }}
       />
+      <ProfileStack.Screen
+        name={r.about.name}
+        component={About}
+        options={{ title: r.about.title, ...defaultNavigationOptions }}
+      />
     </ProfileStack.Navigator>
   )
 }
@@ -100,7 +106,7 @@ const CreateAdStackScreen = () => {
         name={r.createAd.name}
         component={CreateAdScreen}
         options={{ title: r.createAd.title, ...defaultNavigationOptions }}
-        />
+      />
     </CreateAdStack.Navigator>
   )
 }

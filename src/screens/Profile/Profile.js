@@ -2,23 +2,36 @@ import React from "react"
 import { View, StyleSheet, TouchableOpacity, ScrollView } from "react-native"
 import FontAwesome from 'react-native-vector-icons/FontAwesome5'
 import { Card } from "../../components/ui/Card"
-import { Color as c } from "../../constants/app"
+import { Color as c, Route as r } from "../../constants/app"
 import Avatar from "../../components/ui/Avatar"
 import { BoldText, RegularText } from "../../components/ui/Text"
 import { Button } from "../../components/ui/Button"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { selectUser } from "../../redux/reducers/user"
+import { useNavigation } from "@react-navigation/native"
+import { signIn } from "../../redux/actions/user"
 
-const Row = ({ children, onPress }) => (
-  <View style={styles.rowContainer}>
-    <TouchableOpacity style={styles.rowTextContainer} onPress={onPress}>
-      <RegularText style={styles.rowText}>{children}</RegularText>
-      <View style={styles.rowIcon}>
-        <FontAwesome name={'arrow-right'} size={25} color={c.primary}/>
-      </View>
-    </TouchableOpacity>
-  </View>
-)
+const NavigationRow = ({ children, name, params, icon, onPress }) => {
+  const navigation = useNavigation()
+
+  const handlePress= onPress || (
+    () => navigation.navigate({ name, params })
+  )
+
+  return (
+    <View style={styles.rowContainer}>
+      <TouchableOpacity
+        style={styles.rowTextContainer}
+        onPress={handlePress}
+      >
+        <RegularText style={styles.rowText}>{children}</RegularText>
+        <View style={styles.rowIcon}>
+          <FontAwesome name={icon || 'arrow-right'} size={25} color={c.primary}/>
+        </View>
+      </TouchableOpacity>
+    </View>
+  )
+}
 
 const LoggedInProfileScreen = () => {
   return (
@@ -39,10 +52,10 @@ const LoggedInProfileScreen = () => {
         </View>
       </View>
       <View style={{ width: '100%' }}>
-        <Row>Мої оголошення</Row>
-        <Row>Повідомлення</Row>
-        <Row>Вибране</Row>
-        <Row>Подати оголошення</Row>
+        <NavigationRow>Мої оголошення</NavigationRow>
+        <NavigationRow>Повідомлення</NavigationRow>
+        <NavigationRow>Вибране</NavigationRow>
+        <NavigationRow>Подати оголошення</NavigationRow>
       </View>
       <View style={{ width: '90%' }}>
         <Button
@@ -54,12 +67,16 @@ const LoggedInProfileScreen = () => {
 }
 
 const LoggedOutProfileScreen = () => {
+  const dispatch = useDispatch()
+
+  const handleLogin = () => dispatch(signIn())
+
   return (
     <React.Fragment>
       <View style={styles.headerContainer}>
         <View style={{ width: '50%', margin: 20 }}>
           <BoldText style={{ fontSize: 30 }}>Вітаю в
-            <BoldText style={{ color: c.primary }}> drum_spot</BoldText>
+            <BoldText style={{ color: c.primary }}> DrumSpot</BoldText>
           </BoldText>
           <RegularText
             style={{ marginTop: 45 }}
@@ -74,10 +91,9 @@ const LoggedOutProfileScreen = () => {
         </View>
       </View>
       <View style={{ width: '100%', marginVertical: 80 }}>
-        <Row>Увійти</Row>
-        <Row>Зареєструватися</Row>
-        <Row>Про додаток</Row>
-        <Row>На головну</Row>
+        <NavigationRow onPress={handleLogin} icon="facebook-square">Увійти</NavigationRow>
+        <NavigationRow name={r.about.name}>Про додаток</NavigationRow>
+        <NavigationRow name={r.home.name}>На головну</NavigationRow>
       </View>
     </React.Fragment>
   )
@@ -91,7 +107,7 @@ export const Profile = () => {
     : LoggedOutProfileScreen
 
   return (
-    <ScrollView>
+    <ScrollView contentContainerStyle={{ height: '100%' }}>
       <Card style={styles.container}>
         <ProfileScreen/>
       </Card>
@@ -101,10 +117,10 @@ export const Profile = () => {
 
 const styles = StyleSheet.create({
   container        : {
-    // flex          : 1,
     alignItems    : 'center',
     overflow      : 'hidden',
     marginVertical: 5,
+    height: '98%'
   },
   headerContainer  : {
     flexDirection: 'row',

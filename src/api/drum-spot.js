@@ -28,15 +28,7 @@ export class DrumSpotAPI {
     })
   }
 
-  static async singIn(password) {
-    if (password !== 'foo') {
-      throw new RequestError({
-        message: 'Unauthorized',
-        code   : 401,
-        status : 401,
-      })
-    }
-
+  static async signInByFb() {
     return { token }
   }
 

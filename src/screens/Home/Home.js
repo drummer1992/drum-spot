@@ -20,15 +20,13 @@ export const HomeScreen = () => {
     }
   }, [advertisements, loading, loaded])
 
-  const renderItem = ({ item }) => <Advertisement item={item}/>
-
   return (
     <Container>
       <FlatList
         onRefresh={() => dispatch(fetchAdvertisements())}
         refreshing={loading}
         data={advertisements}
-        renderItem={renderItem}
+        renderItem={({ item }) => <Advertisement item={item}/>}
         keyExtractor={(_, i) => `advertisement-${i}`}
       />
     </Container>

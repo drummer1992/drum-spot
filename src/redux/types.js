@@ -7,6 +7,5 @@ export const Type = {
   FETCH_ADVERTISEMENTS: 'advertisements/fetch',
   FETCH_USER          : 'user/fetch',
   SIGN_IN_USER        : 'user/signIn',
-  SIGN_UP_USER        : 'user/signUp',
   LOG_OUT_USER        : 'user/logOut',
 }

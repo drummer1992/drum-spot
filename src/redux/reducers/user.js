@@ -11,7 +11,6 @@ export default reduceReducers(
     auth: reduceReducers(
       {},
       loadReducer(t.SIGN_IN_USER),
-      loadReducer(t.SIGN_UP_USER),
       reducersMap({ [t.LOG_OUT_USER]: () => ({}) })
     )
   })

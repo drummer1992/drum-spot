@@ -4,14 +4,19 @@ import Avatar from "../../components/ui/Avatar"
 import { Card } from "../../components/ui/Card"
 import { useNavigation } from "@react-navigation/native"
 import { Route as r } from "../../constants/app"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { selectUser } from "../../redux/reducers/user"
+import { deleteAdvertisement } from "../../redux/actions/advertisement"
+import { handleDeleteEntity } from "../../alerts/delete"
 
 export const Advertisement = ({ item }) => {
   const { images, title, price } = item
 
   const navigation = useNavigation()
   const user = useSelector(selectUser)
+  const dispatch = useDispatch()
+
+  const isOwner = user && user.id === item.ownerId
 
   const handlePress = () => {
     navigation.navigate({
@@ -25,13 +30,18 @@ export const Advertisement = ({ item }) => {
     params: { item },
   })
 
+  const deleteItem = () => {
+    handleDeleteEntity(title, () => dispatch(deleteAdvertisement(item.id)))
+  }
+
   const handleLongPress = () => {
-    if (user && user.id === item.userId) {
+    if (isOwner) {
       Alert.alert(
-        'Редагування',
-        'Ви хочете відредагувати цю публікацію?',
+        'Що будемо робити?',
+        'Виберіть один із варіантів',
         [
           { text: 'Редагувати', onPress: navigateToEditor },
+          { text: 'Видалити', onPress: deleteItem, style: 'destructive' },
           { text: 'Закрити', style: 'cancel' },
         ],
         { cancelable: true },

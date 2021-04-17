@@ -15,7 +15,7 @@ export const promiseMiddleware = ({ dispatch, getState }) => {
     next({ ...rest, type: pending(type) })
 
     return action.promise.then(
-      result => next({ ...rest, result, type: fulfilled(type) }),
+      result => next({ ...rest, payload: result, type: fulfilled(type) }),
       err => {
         console.error(err.stack || err)
 

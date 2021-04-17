@@ -8,6 +8,9 @@ import { UserProvider } from "../providers/UserProvider"
 import { HomeStackScreen } from "./HomeNavigation"
 import { CreateAdStackScreen } from "./CreateAdNavigation"
 import { ProfileStackScreen } from "./ProfileNavigation"
+import { selectUser } from "../redux/reducers/user"
+import { useSelector } from "react-redux"
+import { createGuard } from "../utils/guard"
 
 const Tab = createBottomTabNavigator()
 
@@ -30,6 +33,9 @@ const tabBarIconOptions = ({ title, IconComponent, name }) => ({
 })
 
 export const Navigation = () => {
+  const user = useSelector(selectUser)
+  const guard = createGuard(user?.id)
+
   return (
     <NavigationContainer>
       <UserProvider>
@@ -43,15 +49,17 @@ export const Navigation = () => {
               IconComponent: MaterialCommunityIcons,
             })}
           />
-          <Tab.Screen
-            name={r.createAd.name}
-            component={CreateAdStackScreen}
-            options={tabBarIconOptions({
-              title        : r.createAd.title,
-              name         : 'plus-circle',
-              IconComponent: MaterialCommunityIcons
-            })}
-          />
+          {guard(
+            <Tab.Screen
+              name={r.createAd.name}
+              component={CreateAdStackScreen}
+              options={tabBarIconOptions({
+                title        : r.createAd.title,
+                name         : 'plus-circle',
+                IconComponent: MaterialCommunityIcons
+              })}
+            />
+          )}
           <Tab.Screen
             name={r.ownAdvertisements.name}
             component={ProfileStackScreen}

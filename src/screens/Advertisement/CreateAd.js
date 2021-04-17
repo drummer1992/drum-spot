@@ -5,7 +5,7 @@ import { Route as r } from "../../constants/app"
 import { useDispatch } from "react-redux"
 import { useNavigation } from "@react-navigation/native"
 
-export const CreateAdScreen = ({}) => {
+export const CreateAdScreen = () => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
 

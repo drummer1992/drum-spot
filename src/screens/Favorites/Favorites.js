@@ -8,7 +8,7 @@ export const Favorites = () => {
 
   return <Advertisements
     predicate={advertisement => (
-      advertisement.userId === id && favorites.includes(advertisement.id)
+      advertisement.ownerId === id && favorites.includes(advertisement.id)
     )}
   />
 }

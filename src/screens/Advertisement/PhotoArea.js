@@ -4,7 +4,7 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import { Color as c } from "../../constants/app"
 import React, { useState } from "react"
 import { ImageSlider } from "../../components/ui/Slider"
-import { Code } from "../../../errors/constants"
+import { Code } from "../../errors/constants"
 
 const cameraConfig = { width: 300, height: 200, cropping: true }
 

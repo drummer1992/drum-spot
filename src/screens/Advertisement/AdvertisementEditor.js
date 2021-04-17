@@ -1,4 +1,4 @@
-import { Alert, Keyboard, StyleSheet, TouchableWithoutFeedback, View } from "react-native"
+import { Alert, Keyboard, StyleSheet, Switch, TouchableWithoutFeedback, View } from "react-native"
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
 import { Card } from "../../components/ui/Card"
 import { PhotoArea } from "./PhotoArea"
@@ -8,10 +8,11 @@ import { Input, InputHeader } from "../../components/ui/Input"
 import { Button } from "../../components/ui/Button"
 import { Color as c } from "../../constants/app"
 import React, { useState } from "react"
-import { createValidator } from "../../../errors/validator"
-import { array, max, maxLength, min, minLength, required } from "../../../errors/validator/validators"
+import { createValidator } from "../../errors/validator"
+import { array, max, maxLength, min, minLength, required } from "../../errors/validator/validators"
 import { useSelector } from "react-redux"
 import { selectUser } from "../../redux/reducers/user"
+
 const validate = createValidator({
   title  : [
     required('Заголовок не може бути пустим!'),
@@ -61,7 +62,7 @@ export const AdvertisementEditor = ({ initialState = {}, onPressPublish, buttonT
       isNew,
       isRent,
       priceNegotiating,
-      userId: id,
+      ownerId: id,
     }
 
     const { valid, message } = validate(newAd)
@@ -128,6 +129,14 @@ export const AdvertisementEditor = ({ initialState = {}, onPressPublish, buttonT
               text={details}
             />
           </View>
+          <View style={styles.switchContainer}>
+            <InputHeader title="Торг"/>
+            <Switch
+              style={styles.switch}
+              value={priceNegotiating}
+              onValueChange={() => setPriceNegotiating(!priceNegotiating)}
+            />
+          </View>
           <Button
             color={c.primary}
             title={buttonTitle}
@@ -164,5 +173,13 @@ const styles = StyleSheet.create({
     marginVertical: 20,
     marginBottom  : 40,
     width         : '90%',
+  },
+  switchContainer            : {
+    flexDirection: 'row',
+    alignItems   : 'center',
+    alignSelf    : 'flex-end',
+  },
+  switch                     : {
+    marginRight: 40,
   },
 })

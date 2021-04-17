@@ -1,6 +1,6 @@
 import React from "react"
 import { AdvertisementEditor } from "./AdvertisementEditor"
-import { createAdvertisement } from "../../redux/actions/advertisement"
+import { updateAdvertisement } from "../../redux/actions/advertisement"
 import { Route as r } from "../../constants/app"
 import { useDispatch } from "react-redux"
 import { useNavigation } from "@react-navigation/native"
@@ -12,7 +12,7 @@ export const EditAdScreen = ({ route }) => {
   const navigation = useNavigation()
 
   const updateHandler = newAd => {
-    return dispatch(createAdvertisement(newAd))
+    return dispatch(updateAdvertisement(item.id, newAd))
       .then(() => {
         navigation.navigate(r.home.name)
       })

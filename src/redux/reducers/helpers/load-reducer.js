@@ -3,7 +3,7 @@ import { fulfilled, rejected, pending } from '../../types'
 
 export const defaultReducer = (state, action) => ({
   ...state,
-  ...action.result,
+  ...action.payload,
 })
 
 export const defaultInitialState = {

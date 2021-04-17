@@ -7,6 +7,7 @@ import { createStackNavigator } from "@react-navigation/stack"
 import { defaultNavigationOptions } from "./common"
 import { OwnAdvertisements } from "../screens/Profile/OwnAdvertisements"
 import { EditAdScreen } from "../screens/Advertisement/EditAd"
+import { AdvertisementDetails, advertisementOptions } from "../screens/Advertisement/AdvertisementDetails"
 
 const ProfileStack = createStackNavigator()
 
@@ -37,6 +38,14 @@ export const ProfileStackScreen = () => {
         name={r.editAd.name}
         component={EditAdScreen}
         options={{ title: r.editAd.title, ...defaultNavigationOptions }}
+      />
+      <ProfileStack.Screen
+        name={r.advertisementDetails.name}
+        component={AdvertisementDetails}
+        options={props => ({
+          ...defaultNavigationOptions,
+          ...advertisementOptions(props),
+        })}
       />
     </ProfileStack.Navigator>
   )

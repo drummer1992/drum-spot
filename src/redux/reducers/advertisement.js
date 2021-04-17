@@ -1,13 +1,20 @@
 import { reduceReducers } from "./helpers/reduce-reducers"
 import { defaultInitialState, loadReducer } from "./helpers/load-reducer"
 import { Type as t } from "../types"
-import { getCollectionReducers } from "./helpers/collection-reducer"
+import { createCollectionReducers } from "./helpers/collection-reducer"
 
-const { initStateReducer, enrichStateReducer } = getCollectionReducers('id')
+const {
+  initStateReducer,
+  enrichStateReducer,
+  updateStateReducer,
+  filterStateReducer,
+} = createCollectionReducers('id')
 
 export default reduceReducers(
   { list: [], map: {}, ...defaultInitialState },
   loadReducer(t.CREATE_ADVERTISEMENT, enrichStateReducer),
+  loadReducer(t.UPDATE_ADVERTISEMENT, updateStateReducer),
+  loadReducer(t.DELETE_ADVERTISEMENT, filterStateReducer),
   loadReducer(t.FETCH_ADVERTISEMENTS, initStateReducer),
 )
 

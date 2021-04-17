@@ -9,7 +9,7 @@ export const Route = {
     name : 'CreateAd',
     title: 'Нове оголошення',
   },
-  editAd            : {
+  editAd              : {
     name : 'EditAd',
     title: 'Редагування оголошення',
   },
@@ -43,6 +43,7 @@ export const Route = {
 }
 
 export const Color = {
-  primary  : '#55ab7d',
-  secondary: '#333',
+  primary    : '#55ab7d',
+  secondary  : '#333',
+  destructive: '#fc3d39',
 }

@@ -97,7 +97,7 @@ const LoggedOutProfileScreen = () => {
           <FontAwesome name="drum" size={200} color={c.primary}/>
         </View>
       </View>
-      <View style={{ width: '100%', marginVertical: '30%' }}>
+      <View style={{ width: '100%', marginVertical: '33%' }}>
         <NavigationRow onPress={handleLogin} icon="facebook-square">Увійти</NavigationRow>
         <NavigationRow name={r.about.name}>Про додаток</NavigationRow>
         <NavigationRow name={r.home.name}>На головну</NavigationRow>

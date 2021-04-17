@@ -8,8 +8,10 @@ import { BoldText, RegularText } from "../../components/ui/Text"
 import { ConditionMessageByRating } from "../../components/ConditionRating"
 import { Button } from "../../components/ui/Button"
 import { useNavigation } from "@react-navigation/native"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { selectUser } from "../../redux/reducers/user"
+import { deleteAdvertisement } from "../../redux/actions/advertisement"
+import { handleDeleteEntity } from "../../alerts/delete"
 
 const ValueBox = ({ title, value }) => (
   <Card style={styles.valueContainer}>
@@ -26,10 +28,13 @@ export const AdvertisementDetails = ({ route }) => {
 
   const user = useSelector(selectUser)
 
-  const navigation = useNavigation()
+  const isOwner = user && user.id === item.ownerId
 
-  const handleSubmit = () => {
-    if (user && user.id === item.userId) {
+  const navigation = useNavigation()
+  const dispatch = useDispatch()
+
+  const handleEdit = () => {
+    if (isOwner) {
       return navigation.navigate({
         name  : r.editAd.name,
         params: { item },
@@ -37,6 +42,13 @@ export const AdvertisementDetails = ({ route }) => {
     }
 
     navigation.navigate(r.chat.name)
+  }
+
+  const handleDelete = () => {
+    handleDeleteEntity(item.title, () => {
+      navigation.navigate(r.home.name)
+      dispatch(deleteAdvertisement(item.id))
+    })
   }
 
   return (
@@ -77,18 +89,23 @@ export const AdvertisementDetails = ({ route }) => {
         </Card>
         <View style={styles.buttonContainer}>
           <Button
-            title={
-              (user && user.id === item.userId)
-                ? 'Редагувати'
-                : "Зв'язатися з автором"
-            }
+            title={isOwner ? 'Редагувати' : "Зв'язатися з автором"}
             color={c.primary}
             style={{
               borderColor: c.primary,
               width      : '100%',
             }}
-            onPress={handleSubmit}
+            onPress={handleEdit}
           />
+          {
+            isOwner &&
+            <Button
+              title="Видалити"
+              color={c.destructive}
+              style={styles.button}
+              onPress={handleDelete}
+            />
+          }
         </View>
       </KeyboardAwareScrollView>
     </Card>
@@ -139,7 +156,7 @@ const styles = StyleSheet.create({
   },
   detailsContainer           : {
     width    : '100%',
-    minHeight: 150,
+    minHeight: 100,
     alignSelf: 'center',
     marginTop: 10,
   },
@@ -148,11 +165,12 @@ const styles = StyleSheet.create({
     marginTop : 10,
   },
   buttonContainer            : {
-    marginVertical  : 20,
+    marginVertical  : 40,
     marginHorizontal: 5,
   },
   button                     : {
-    borderColor: c.primary,
-    width      : '100%',
+    marginVertical: 10,
+    borderColor   : c.primary,
+    width         : '100%',
   }
 })

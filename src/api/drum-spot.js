@@ -1,7 +1,7 @@
 import { uuidV4 } from "../utils/random"
 
 const token = 'secret'
-const userId = Date.now()
+const userId = uuidV4()
 
 class RequestError extends Error {
   constructor(error) {
@@ -21,7 +21,7 @@ export class DrumSpotAPI {
         name     : 'Andrii Varlamov',
         imageURL : require('../../assets/ava.jpeg'),
         favorites: [
-          Date.now(),
+          uuidV4(),
         ],
       }
     }
@@ -45,6 +45,15 @@ export class DrumSpotAPI {
     }
   }
 
+  static async updateAdvertisement() {
+    return null
+  }
+
+
+  static async deleteAdvertisement() {
+    return null
+  }
+
   static async getAdvertisements() {
     return [
       {
@@ -59,6 +68,7 @@ export class DrumSpotAPI {
         priceNegotiating: true,
         city            : 'Київ',
         details         : 'Крутий інструмент, підходить під любий музон!',
+        ownerId         : uuidV4(),
       },
       {
         id              : 2,
@@ -72,6 +82,7 @@ export class DrumSpotAPI {
         priceNegotiating: true,
         city            : 'Київ',
         details         : 'Крутий інструмент, підходить під любий музон!',
+        ownerId         : uuidV4(),
       },
       {
         id              : 3,
@@ -85,6 +96,7 @@ export class DrumSpotAPI {
         priceNegotiating: true,
         city            : 'Київ',
         details         : 'Крутий інструмент, підходить під любий музон!',
+        ownerId         : uuidV4(),
       },
 
       {
@@ -99,9 +111,11 @@ export class DrumSpotAPI {
         priceNegotiating: true,
         city            : 'Київ',
         details         : 'Крутий інструмент, підходить під любий музон!',
+        ownerId         : uuidV4(),
       },
       {
         id              : 5,
+        rating          : 4,
         images          : ['https://media.sweetwater.com/api/i/q-82__ha-a7bbefd95305e210__hmac-2d900d3520060a611231b3120b0aaf7b52ed8de3/images/items/750/AC14HPR-large.jpg'],
         title           : 'Zildjian A Custom Hi-Hat 14',
         price           : 12000,
@@ -111,7 +125,7 @@ export class DrumSpotAPI {
         priceNegotiating: true,
         city            : 'Київ',
         details         : 'Крутий інструмент, підходить під любий музон!',
-        userId,
+        ownerId         : userId,
       },
     ].sort((a, b) => a > b ? 1 : -1)
   }

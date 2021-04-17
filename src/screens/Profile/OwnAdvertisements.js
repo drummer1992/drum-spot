@@ -3,12 +3,10 @@ import { useSelector } from "react-redux"
 import { Advertisements } from "../Advertisement/Advertisements"
 import { selectUser } from "../../redux/reducers/user"
 
-export const Favorites = () => {
-  const { id, favorites } = useSelector(selectUser)
+export const OwnAdvertisements = () => {
+  const { id } = useSelector(selectUser)
 
   return <Advertisements
-    predicate={advertisement => (
-      advertisement.userId === id && favorites.includes(advertisement.id)
-    )}
+    predicate={advertisement => advertisement.userId === id}
   />
 }

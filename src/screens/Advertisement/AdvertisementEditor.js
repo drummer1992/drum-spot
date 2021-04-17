@@ -1,23 +1,17 @@
-import React, { useState } from "react"
-import {
-  View,
-  StyleSheet,
-  TouchableWithoutFeedback,
-  Keyboard, Alert
-} from "react-native"
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { Alert, Keyboard, StyleSheet, TouchableWithoutFeedback, View } from "react-native"
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
 import { Card } from "../../components/ui/Card"
-import { Color as c, Route as r } from "../../constants/app"
 import { PhotoArea } from "./PhotoArea"
-import { Input, InputHeader } from "../../components/ui/Input"
 import { AdvertisementFlags } from "./AdvertisementFlags"
-import { array, max, maxLength, min, minLength, required } from "../../../errors/validator/validators"
-import { createValidator } from "../../../errors/validator"
-import { useDispatch } from "react-redux"
-import { createAdvertisement } from "../../redux/actions/advertisement"
-import { Button } from "../../components/ui/Button"
 import { ConditionRating } from "../../components/ConditionRating"
-
+import { Input, InputHeader } from "../../components/ui/Input"
+import { Button } from "../../components/ui/Button"
+import { Color as c } from "../../constants/app"
+import React, { useState } from "react"
+import { createValidator } from "../../../errors/validator"
+import { array, max, maxLength, min, minLength, required } from "../../../errors/validator/validators"
+import { useSelector } from "react-redux"
+import { selectUser } from "../../redux/reducers/user"
 const validate = createValidator({
   title  : [
     required('Заголовок не може бути пустим!'),
@@ -43,18 +37,18 @@ const validate = createValidator({
   ],
 })
 
-export const CreateAdScreen = ({ navigation }) => {
-  const [isRent, setIsRent] = useState(false)
-  const [isNew, setIsNew] = useState(false)
-  const [priceNegotiating, setPriceNegotiating] = useState(false)
-  const [title, setTitle] = useState('')
-  const [price, setPrice] = useState('')
-  const [city, setCity] = useState('')
-  const [details, setDetails] = useState('')
-  const [images, setImages] = useState([])
-  const [rating, setRating] = useState(4)
+export const AdvertisementEditor = ({ initialState = {}, onPressPublish, buttonTitle }) => {
+  const [isRent, setIsRent] = useState(initialState.isRent || false)
+  const [isNew, setIsNew] = useState(initialState.isNew || false)
+  const [priceNegotiating, setPriceNegotiating] = useState(initialState.priceNegotiating)
+  const [title, setTitle] = useState(initialState.title)
+  const [price, setPrice] = useState(String(initialState.price || ''))
+  const [city, setCity] = useState(initialState.city)
+  const [details, setDetails] = useState(initialState.details)
+  const [images, setImages] = useState(initialState.images || [])
+  const [rating, setRating] = useState(initialState.rating || 4)
 
-  const dispatch = useDispatch()
+  const { id } = useSelector(selectUser)
 
   const handleSubmit = () => {
     const newAd = {
@@ -67,6 +61,7 @@ export const CreateAdScreen = ({ navigation }) => {
       isNew,
       isRent,
       priceNegotiating,
+      userId: id,
     }
 
     const { valid, message } = validate(newAd)
@@ -75,7 +70,7 @@ export const CreateAdScreen = ({ navigation }) => {
       return Alert.alert('Помилка валідації', message)
     }
 
-    dispatch(createAdvertisement(newAd))
+    return onPressPublish(newAd)
       .then(() => {
         setIsRent(false)
         setIsNew(false)
@@ -84,10 +79,7 @@ export const CreateAdScreen = ({ navigation }) => {
         setCity('')
         setDetails('')
         setImages([])
-
-        navigation.navigate(r.home.name)
       })
-      .catch(() => alert('Щось пішло не так, спробуйте будь ласка ще раз'))
   }
 
   return (
@@ -134,16 +126,13 @@ export const CreateAdScreen = ({ navigation }) => {
               onChangeText={setDetails}
               placeHolder="Наприклад: Звук шик..."
               text={details}
-              InputContainerStyle={{ height: null, minHeight: 80, paddingVertical: 10 }}
-              InputWrapperStyle={{ paddingVertical: Platform.select({ ios: 20 }) }}
-              multiline={true}
             />
           </View>
           <Button
             color={c.primary}
-            title="Опублікувати"
+            title={buttonTitle}
             onPress={handleSubmit}
-            style={{ borderColor: c.primary, marginBottom: 10 }}
+            style={styles.button}
           />
         </Card>
       </KeyboardAwareScrollView>
@@ -167,5 +156,13 @@ const styles = StyleSheet.create({
     height       : 50,
     alignItems   : 'center',
   },
-  inputContainer             : { marginTop: 10 },
+  inputContainer             : {
+    marginTop: 10,
+  },
+  button                     : {
+    borderColor   : c.primary,
+    marginVertical: 20,
+    marginBottom  : 40,
+    width         : '90%',
+  },
 })

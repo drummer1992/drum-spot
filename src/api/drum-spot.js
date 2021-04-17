@@ -1,6 +1,7 @@
 import { uuidV4 } from "../utils/random"
 
 const token = 'secret'
+const userId = Date.now()
 
 class RequestError extends Error {
   constructor(error) {
@@ -16,9 +17,12 @@ export class DrumSpotAPI {
   static async getProfile(userToken) {
     if (userToken === token) {
       return {
-        id      : Date.now(),
-        name    : 'Andrii Varlamov',
-        imageURL: require('../../assets/ava.jpeg'),
+        id       : userId,
+        name     : 'Andrii Varlamov',
+        imageURL : require('../../assets/ava.jpeg'),
+        favorites: [
+          Date.now(),
+        ],
       }
     }
 
@@ -107,6 +111,7 @@ export class DrumSpotAPI {
         priceNegotiating: true,
         city            : 'Київ',
         details         : 'Крутий інструмент, підходить під любий музон!',
+        userId,
       },
     ].sort((a, b) => a > b ? 1 : -1)
   }

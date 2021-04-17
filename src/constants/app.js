@@ -9,6 +9,10 @@ export const Route = {
     name : 'CreateAd',
     title: 'Нове оголошення',
   },
+  editAd            : {
+    name : 'EditAd',
+    title: 'Редагування оголошення',
+  },
   advertisementDetails: {
     name: 'AdvertisementDetails',
   },

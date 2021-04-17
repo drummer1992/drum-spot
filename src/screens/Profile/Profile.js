@@ -57,11 +57,9 @@ const LoggedInProfileScreen = () => {
           <BoldText style={{ fontSize: 35 }}>Вітаю {name}</BoldText>
         </View>
       </View>
-      <View style={{ width: '100%' }}>
-        <NavigationRow>Мої оголошення</NavigationRow>
-        <NavigationRow>Повідомлення</NavigationRow>
-        <NavigationRow>Вибране</NavigationRow>
-        <NavigationRow>Подати оголошення</NavigationRow>
+      <View style={{ width: '100%', marginVertical: '13%' }}>
+        <NavigationRow name={r.ownAdvertisements.name}>Мої оголошення</NavigationRow>
+        <NavigationRow name={r.chat.name}>Повідомлення</NavigationRow>
       </View>
       <View style={{ width: '90%' }}>
         <Button
@@ -83,7 +81,7 @@ const LoggedOutProfileScreen = () => {
   return (
     <React.Fragment>
       <View style={styles.headerContainer}>
-        <View style={{ width: '50%', margin: 20 }}>
+        <View style={styles.textContainer}>
           <BoldText style={{ fontSize: 30 }}>Вітаю в
             <BoldText style={{ color: c.primary }}> DrumSpot</BoldText>
           </BoldText>
@@ -155,7 +153,8 @@ const styles = StyleSheet.create({
     margin        : 20,
   },
   button           : {
-    marginVertical: 40,
+    marginVertical: 20,
+    marginBottom  : 40,
     width         : '100%',
   },
   rowContainer     : {
@@ -178,4 +177,10 @@ const styles = StyleSheet.create({
   rowIcon          : {
     marginHorizontal: 20,
   },
+  textContainer    : {
+    width      : '50%',
+    marginTop  : 20,
+    marginLeft : 10,
+    marginRight: 33,
+  }
 })

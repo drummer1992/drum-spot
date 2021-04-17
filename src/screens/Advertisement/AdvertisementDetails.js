@@ -3,10 +3,13 @@ import { StyleSheet, View } from "react-native"
 import { Card } from "../../components/ui/Card"
 import { ImageSlider } from "../../components/ui/Slider"
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
-import { Color as c } from "../../constants/app"
+import { Color as c, Route as r } from "../../constants/app"
 import { BoldText, RegularText } from "../../components/ui/Text"
 import { ConditionMessageByRating } from "../../components/ConditionRating"
 import { Button } from "../../components/ui/Button"
+import { useNavigation } from "@react-navigation/native"
+import { useSelector } from "react-redux"
+import { selectUser } from "../../redux/reducers/user"
 
 const ValueBox = ({ title, value }) => (
   <Card style={styles.valueContainer}>
@@ -20,6 +23,21 @@ const ValueBox = ({ title, value }) => (
 export const AdvertisementDetails = ({ route }) => {
   const [active, setActive] = useState(0)
   const { item } = route.params
+
+  const user = useSelector(selectUser)
+
+  const navigation = useNavigation()
+
+  const handleSubmit = () => {
+    if (user && user.id === item.userId) {
+      return navigation.navigate({
+        name  : r.editAd.name,
+        params: { item },
+      })
+    }
+
+    navigation.navigate(r.chat.name)
+  }
 
   return (
     <Card style={styles.container}>
@@ -59,12 +77,17 @@ export const AdvertisementDetails = ({ route }) => {
         </Card>
         <View style={styles.buttonContainer}>
           <Button
-            title="Зв'язатися з автором"
+            title={
+              (user && user.id === item.userId)
+                ? 'Редагувати'
+                : "Зв'язатися з автором"
+            }
             color={c.primary}
             style={{
               borderColor: c.primary,
               width      : '100%',
             }}
+            onPress={handleSubmit}
           />
         </View>
       </KeyboardAwareScrollView>

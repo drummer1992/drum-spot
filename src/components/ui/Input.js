@@ -12,20 +12,16 @@ export const Input = ({
   text,
   placeHolder,
   keyboardType,
-  InputContainerStyle = {},
-  InputWrapperStyle = {},
-  InputStyle = {},
-  multiline,
 }) => (
-  <View style={{ ...styles.container, ...InputContainerStyle }}>
-    <View style={{ ...styles.wrapper, ...InputWrapperStyle }}>
+  <View style={{ ...styles.container }}>
+    <View style={{ ...styles.wrapper }}>
       <TextInput
         placeholder={placeHolder}
         onChangeText={onChangeText}
         value={text}
         keyboardType={keyboardType}
-        multiline={multiline}
-        style={{ ...styles.input, ...InputStyle, }}
+        style={{ ...styles.input, }}
+        multiline={true}
       />
     </View>
   </View>
@@ -36,19 +32,19 @@ const styles = StyleSheet.create({
   container: {
     alignItems    : 'center',
     justifyContent: 'center',
-    height        : 60,
     marginVertical: 5,
+    minHeight     : 80,
   },
   wrapper  : {
     width          : '95%',
     overflow       : 'hidden',
     backgroundColor: '#f4f4f4',
     borderRadius   : 6,
+    justifyContent : 'center',
+    padding        : 10,
   },
   input    : {
-    padding: Platform.select({
-      android: 25,
-      ios    : 20,
-    }),
+    paddingTop: 11,
+    padding: 10
   },
 })

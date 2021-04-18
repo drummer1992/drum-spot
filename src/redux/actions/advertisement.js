@@ -10,15 +10,15 @@ export const createAdvertisement = advertisement => ({
   apiCall: api => api.createAdvertisement(advertisement)
 })
 
-export const updateAdvertisement = (id, data) => ({
-  id,
+export const updateAdvertisement = (_id, data) => ({
+  _id,
   data,
   type   : t.UPDATE_ADVERTISEMENT,
-  apiCall: api => api.updateAdvertisement(id, data)
+  apiCall: api => api.updateAdvertisement(_id, data)
 })
 
-export const deleteAdvertisement = id => ({
-  predicate: id,
+export const deleteAdvertisement = _id => ({
+  predicate: _id,
   type     : t.DELETE_ADVERTISEMENT,
-  apiCall  : api => api.deleteAdvertisement(id),
+  apiCall  : api => api.deleteAdvertisement(_id),
 })

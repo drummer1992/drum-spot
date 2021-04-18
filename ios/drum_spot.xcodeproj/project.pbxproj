@@ -12,6 +12,8 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		645A4A8D87CC45778A6153D4 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4E3837E4D7EB482298CFD3C2 /* Roboto-Regular.ttf */; };
+		787A189E262B956B00C900DE /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787A189D262B956B00C900DE /* File.swift */; };
+		787A189F262B956B00C900DE /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787A189D262B956B00C900DE /* File.swift */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		8B2E728399C5289E4A1BBE5B /* libPods-drum_spot.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 25E54324FE6FCBC76DB33940 /* libPods-drum_spot.a */; };
 		B113F4E8ED0864FE7159189C /* libPods-drum_spot-drum_spotTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 97C2EF525D8DC57641AF061A /* libPods-drum_spot-drum_spotTests.a */; };
@@ -42,6 +44,9 @@
 		25E54324FE6FCBC76DB33940 /* libPods-drum_spot.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-drum_spot.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4E3837E4D7EB482298CFD3C2 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Regular.ttf"; path = "../assets/fonts/Roboto-Regular.ttf"; sourceTree = "<group>"; };
 		4E404D5C273813C56E928961 /* Pods-drum_spot-drum_spotTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-drum_spot-drum_spotTests.debug.xcconfig"; path = "Target Support Files/Pods-drum_spot-drum_spotTests/Pods-drum_spot-drum_spotTests.debug.xcconfig"; sourceTree = "<group>"; };
+		78601D25262B90F700703525 /* drum_spot-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "drum_spot-Bridging-Header.h"; sourceTree = "<group>"; };
+		787A189C262B956B00C900DE /* drum_spotTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "drum_spotTests-Bridging-Header.h"; sourceTree = "<group>"; };
+		787A189D262B956B00C900DE /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		7D3EE69EC8C8DFCB7D1EF8E5 /* Pods-drum_spot.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-drum_spot.debug.xcconfig"; path = "Target Support Files/Pods-drum_spot/Pods-drum_spot.debug.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = drum_spot/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		97C2EF525D8DC57641AF061A /* libPods-drum_spot-drum_spotTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-drum_spot-drum_spotTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -97,6 +102,9 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
+				78601D25262B90F700703525 /* drum_spot-Bridging-Header.h */,
+				787A189D262B956B00C900DE /* File.swift */,
+				787A189C262B956B00C900DE /* drum_spotTests-Bridging-Header.h */,
 			);
 			name = drum_spot;
 			sourceTree = "<group>";
@@ -226,10 +234,11 @@
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
+						LastSwiftMigration = 1240;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						LastSwiftMigration = 1120;
+						LastSwiftMigration = 1240;
 					};
 				};
 			};
@@ -427,6 +436,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				00E356F31AD99517003FC87E /* drum_spotTests.m in Sources */,
+				787A189F262B956B00C900DE /* File.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -435,6 +445,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
+				787A189E262B956B00C900DE /* File.swift in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -454,7 +465,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4E404D5C273813C56E928961 /* Pods-drum_spot-drum_spotTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = 7AN2L9RJT9;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -474,6 +487,9 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "drum_spotTests-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/drum_spot.app/drum_spot";
 			};
 			name = Debug;
@@ -482,7 +498,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C6E7B128F729E6639EF76A48 /* Pods-drum_spot-drum_spotTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEVELOPMENT_TEAM = 7AN2L9RJT9;
 				INFOPLIST_FILE = drum_spotTests/Info.plist;
@@ -499,6 +517,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "drum_spotTests-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/drum_spot.app/drum_spot";
 			};
 			name = Release;
@@ -524,6 +544,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = drum_spot;
+				SWIFT_OBJC_BRIDGING_HEADER = "drum_spot-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -550,6 +571,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = drum_spot;
+				SWIFT_OBJC_BRIDGING_HEADER = "drum_spot-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

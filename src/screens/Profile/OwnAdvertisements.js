@@ -4,9 +4,9 @@ import { Advertisements } from "../Advertisement/Advertisements"
 import { selectUser } from "../../redux/reducers/user"
 
 export const OwnAdvertisements = () => {
-  const { id } = useSelector(selectUser)
+  const { _id } = useSelector(selectUser)
 
   return <Advertisements
-    predicate={advertisement => advertisement.ownerId === id}
+    predicate={advertisement => advertisement.ownerId === _id}
   />
 }

@@ -49,7 +49,7 @@ export const AdvertisementEditor = ({ initialState = {}, onPressPublish, buttonT
   const [images, setImages] = useState(initialState.images || [])
   const [rating, setRating] = useState(initialState.rating || 4)
 
-  const { id } = useSelector(selectUser)
+  const { _id } = useSelector(selectUser)
 
   const handleSubmit = () => {
     const newAd = {
@@ -62,7 +62,7 @@ export const AdvertisementEditor = ({ initialState = {}, onPressPublish, buttonT
       isNew,
       isRent,
       priceNegotiating,
-      ownerId: id,
+      ownerId: _id,
     }
 
     const { valid, message } = validate(newAd)

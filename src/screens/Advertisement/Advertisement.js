@@ -16,7 +16,7 @@ export const Advertisement = ({ item }) => {
   const user = useSelector(selectUser)
   const dispatch = useDispatch()
 
-  const isOwner = user && user.id === item.ownerId
+  const isOwner = user && user._id === item.ownerId
 
   const handlePress = () => {
     navigation.navigate({

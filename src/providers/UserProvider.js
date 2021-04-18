@@ -1,17 +1,15 @@
 import React, { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { selectAuth, selectUser } from "../redux/reducers/user"
-import { fetchProfile, signIn } from "../redux/actions/user"
+import { fetchProfile } from "../redux/actions/user"
 import { Loader } from "../components/Loader"
 
 const AuthProvider = ({ children }) => {
   const { loading, loaded, error } = useSelector(selectAuth)
 
-  const dispatch = useDispatch()
-
   useEffect(() => {
     if (!loading && !loaded) {
-      dispatch(signIn)
+
     }
   }, [loading, loaded, error])
 
@@ -30,7 +28,7 @@ export const UserProvider = ({ children }) => {
 
   useEffect(() => {
     if (!loading && !loaded && token) {
-      dispatch(fetchProfile({ token }))
+      dispatch(fetchProfile())
     }
   }, [loading, loaded, token])
 

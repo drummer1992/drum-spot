@@ -7,43 +7,46 @@ import React from "react"
 import { createStackNavigator } from "@react-navigation/stack"
 import { defaultNavigationOptions } from "./common"
 import { EditAdScreen } from "../screens/Advertisement/EditAd"
+import { UserProvider } from "../providers/UserProvider"
 
 const HomeStack = createStackNavigator()
 
 export const HomeStackScreen = () => {
   return (
-    <HomeStack.Navigator>
-      <HomeStack.Screen
-        name={r.home.name}
-        component={HomeScreen}
-        options={props => ({
-          ...defaultNavigationOptions,
-          ...homeScreenOptions(props),
-        })}
-      />
-      <HomeStack.Screen
-        name={r.advertisementDetails.name}
-        component={AdvertisementDetails}
-        options={props => ({
-          ...defaultNavigationOptions,
-          ...advertisementOptions(props),
-        })}
-      />
-      <HomeStack.Screen
-        name={r.editAd.name}
-        component={EditAdScreen}
-        options={{ title: r.editAd.title, ...defaultNavigationOptions }}
-      />
-      <HomeStack.Screen
-        name={r.chat.name}
-        component={Chat}
-        options={{ title: r.chat.title, ...defaultNavigationOptions }}
-      />
-      <HomeStack.Screen
-        name={r.favorites.name}
-        component={Favorites}
-        options={{ title: r.favorites.title, ...defaultNavigationOptions }}
-      />
-    </HomeStack.Navigator>
+    <UserProvider>
+      <HomeStack.Navigator>
+        <HomeStack.Screen
+          name={r.home.name}
+          component={HomeScreen}
+          options={props => ({
+            ...defaultNavigationOptions,
+            ...homeScreenOptions(props),
+          })}
+        />
+        <HomeStack.Screen
+          name={r.advertisementDetails.name}
+          component={AdvertisementDetails}
+          options={props => ({
+            ...defaultNavigationOptions,
+            ...advertisementOptions(props),
+          })}
+        />
+        <HomeStack.Screen
+          name={r.editAd.name}
+          component={EditAdScreen}
+          options={{ title: r.editAd.title, ...defaultNavigationOptions }}
+        />
+        <HomeStack.Screen
+          name={r.chat.name}
+          component={Chat}
+          options={{ title: r.chat.title, ...defaultNavigationOptions }}
+        />
+        <HomeStack.Screen
+          name={r.favorites.name}
+          component={Favorites}
+          options={{ title: r.favorites.title, ...defaultNavigationOptions }}
+        />
+      </HomeStack.Navigator>
+    </UserProvider>
   )
 }

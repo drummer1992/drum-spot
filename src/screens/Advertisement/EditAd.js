@@ -12,7 +12,7 @@ export const EditAdScreen = ({ route }) => {
   const navigation = useNavigation()
 
   const updateHandler = newAd => {
-    return dispatch(updateAdvertisement(item.id, newAd))
+    return dispatch(updateAdvertisement(item._id, newAd))
       .then(() => {
         navigation.navigate(r.home.name)
       })

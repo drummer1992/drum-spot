@@ -1,63 +1,41 @@
 import { uuidV4 } from "../utils/random"
 
-const token = 'secret'
-const userId = uuidV4()
+const userId = 'id-1'
 
-class RequestError extends Error {
-  constructor(error) {
-    super()
-
-    this.message = error.message
-    this.code = error.code
-    this.status = error.status
-  }
-}
-
-export class DrumSpotAPI {
-  static async getProfile(userToken) {
-    if (userToken === token) {
-      return {
-        id       : userId,
-        name     : 'Andrii Varlamov',
-        imageURL : require('../../assets/ava.jpeg'),
-        favorites: [
-          uuidV4(),
-        ],
-      }
-    }
-
-    throw new RequestError({
-      message: 'Unauthorized',
-      code   : 401,
-      status : 401,
-    })
+class DrumSpotAPI {
+  constructor(request) {
+    this.request = request
   }
 
-  static async signInByFb() {
-    return { token }
+  async getProfile() {
+    return this.request.get('/user')
   }
 
-  static async createAdvertisement(data) {
+  async signInByFb(accessToken) {
+    return this.request.post('/user/signIn').send({ accessToken })
+  }
+
+  async createAdvertisement(data) {
     return {
-      id     : uuidV4(),
+      _id     : uuidV4(),
       ...data,
       created: Date.now(),
     }
   }
 
-  static async updateAdvertisement() {
+  async updateAdvertisement() {
     return null
   }
 
 
-  static async deleteAdvertisement() {
+  async deleteAdvertisement() {
     return null
   }
 
-  static async getAdvertisements() {
+  async getAdvertisements() {
     return [
       {
-        id              : 1,
+        _id              : 1,
         images          : ['https://static.gibson.com/product-images/USA/USAI9Q269/Ebony/front-banner-1600_900.png'],
         title           : 'Gibson Les Paul',
         price           : 34000,
@@ -71,7 +49,7 @@ export class DrumSpotAPI {
         ownerId         : uuidV4(),
       },
       {
-        id              : 2,
+        _id              : 2,
         images          : ['https://media.sweetwater.com/api/i/q-82__ha-a7bbefd95305e210__hmac-2d900d3520060a611231b3120b0aaf7b52ed8de3/images/items/750/AC14HPR-large.jpg'],
         title           : 'Zildjian A Custom Hi-Hat 14',
         price           : 12000,
@@ -85,7 +63,7 @@ export class DrumSpotAPI {
         ownerId         : uuidV4(),
       },
       {
-        id              : 3,
+        _id              : 3,
         images          : ['https://i.ytimg.com/vi/EEb0gE47fys/maxresdefault.jpg'],
         title           : 'Shure SM 58',
         price           : 6000,
@@ -100,7 +78,7 @@ export class DrumSpotAPI {
       },
 
       {
-        id              : 4,
+        _id              : 4,
         images          : ['https://static.gibson.com/product-images/USA/USAI9Q269/Ebony/front-banner-1600_900.png'],
         title           : 'Gibson Les Paul',
         price           : 34000,
@@ -114,7 +92,7 @@ export class DrumSpotAPI {
         ownerId         : uuidV4(),
       },
       {
-        id              : 5,
+        _id              : 5,
         rating          : 4,
         images          : ['https://media.sweetwater.com/api/i/q-82__ha-a7bbefd95305e210__hmac-2d900d3520060a611231b3120b0aaf7b52ed8de3/images/items/750/AC14HPR-large.jpg'],
         title           : 'Zildjian A Custom Hi-Hat 14',
@@ -129,4 +107,14 @@ export class DrumSpotAPI {
       },
     ].sort((a, b) => a > b ? 1 : -1)
   }
+}
+
+let instance
+
+export default req => {
+  if (!instance) {
+    instance = new DrumSpotAPI(req)
+  }
+
+  return instance
 }

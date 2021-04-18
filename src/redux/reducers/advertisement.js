@@ -8,7 +8,7 @@ const {
   enrichStateReducer,
   updateStateReducer,
   filterStateReducer,
-} = createCollectionReducers('id')
+} = createCollectionReducers('_id')
 
 export default reduceReducers(
   { list: [], map: {}, ...defaultInitialState },

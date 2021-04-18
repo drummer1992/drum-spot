@@ -28,7 +28,7 @@ export const AdvertisementDetails = ({ route }) => {
 
   const user = useSelector(selectUser)
 
-  const isOwner = user && user.id === item.ownerId
+  const isOwner = user && user._id === item.ownerId
 
   const navigation = useNavigation()
   const dispatch = useDispatch()
@@ -47,7 +47,7 @@ export const AdvertisementDetails = ({ route }) => {
   const handleDelete = () => {
     handleDeleteEntity(item.title, () => {
       navigation.navigate(r.home.name)
-      dispatch(deleteAdvertisement(item.id))
+      dispatch(deleteAdvertisement(item._id))
     })
   }
 

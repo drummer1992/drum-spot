@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { selectUser } from "../../redux/reducers/user"
 import { useNavigation } from "@react-navigation/native"
 import { logOut, signIn } from "../../redux/actions/user"
+import { fetchAccessToken } from "../../oauth/fetch-access-token"
 
 const NavigationRow = ({ children, name, params, icon, onPress }) => {
   const navigation = useNavigation()
@@ -44,7 +45,7 @@ const LoggedInProfileScreen = () => {
     <React.Fragment>
       <View style={styles.headerContainer}>
         <View style={styles.avatarContainer}>
-          <Avatar size={120} src={imageURL}/>
+          <Avatar size={120} src={{ uri: imageURL }}/>
         </View>
         <View style={[styles.drumIconContainer, {
           transform: [{ rotate: '340deg' }]
@@ -76,7 +77,11 @@ const LoggedInProfileScreen = () => {
 const LoggedOutProfileScreen = () => {
   const dispatch = useDispatch()
 
-  const handleLogin = () => dispatch(signIn)
+  const handleLogin = async () => {
+    const { accessToken } = await fetchAccessToken()
+
+    accessToken && dispatch(signIn(accessToken))
+  }
 
   return (
     <React.Fragment>

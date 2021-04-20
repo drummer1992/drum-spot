@@ -37,7 +37,7 @@ const NavigationRow = ({ children, name, params, icon, onPress }) => {
 const LoggedInProfileScreen = () => {
   const dispatch = useDispatch()
 
-  const handleLogout = () => dispatch(logOut)
+  const handleLogout = () => dispatch(logOut())
 
   const { name, imageURL } = useSelector(selectUser)
 
@@ -55,14 +55,15 @@ const LoggedInProfileScreen = () => {
       </View>
       <View style={styles.titleContainer}>
         <View style={styles.title}>
-          <BoldText style={{ fontSize: 35 }}>Вітаю {name}</BoldText>
+          <BoldText style={styles.welcomeText}>Вітаю {name}</BoldText>
         </View>
       </View>
-      <View style={{ width: '100%', marginVertical: '13%' }}>
+      <View style={styles.loggedInRowsContainer}>
         <NavigationRow name={r.ownAdvertisements.name}>Мої оголошення</NavigationRow>
         <NavigationRow name={r.chat.name}>Повідомлення</NavigationRow>
+        <NavigationRow name={r.favorites.name}>Вибране</NavigationRow>
       </View>
-      <View style={{ width: '90%' }}>
+      <View style={styles.buttonContainer}>
         <Button
           style={styles.button}
           color={c.primary}
@@ -87,12 +88,10 @@ const LoggedOutProfileScreen = () => {
     <React.Fragment>
       <View style={styles.headerContainer}>
         <View style={styles.textContainer}>
-          <BoldText style={{ fontSize: 30 }}>Вітаю в
-            <BoldText style={{ color: c.primary }}> DrumSpot</BoldText>
+          <BoldText style={styles.welcomeText}>Вітаю в
+            <BoldText style={styles.mainTitle}> DrumSpot</BoldText>
           </BoldText>
-          <RegularText
-            style={{ marginTop: 45 }}
-          >
+          <RegularText style={styles.aboutText}>
             Це місце де ви можете продати чи купити, орендувати чи здати в оренду свій барабаний стаф
           </RegularText>
         </View>
@@ -102,7 +101,7 @@ const LoggedOutProfileScreen = () => {
           <FontAwesome name="drum" size={200} color={c.primary}/>
         </View>
       </View>
-      <View style={{ width: '100%', marginVertical: '33%' }}>
+      <View style={styles.loggedOutRowsContainer}>
         <NavigationRow onPress={handleLogin} icon="facebook-square">Увійти</NavigationRow>
         <NavigationRow name={r.about.name}>Про додаток</NavigationRow>
         <NavigationRow name={r.home.name}>На головну</NavigationRow>
@@ -128,41 +127,41 @@ export const Profile = () => {
 }
 
 const styles = StyleSheet.create({
-  container        : {
+  container             : {
     flex          : 1,
     height        : '100%',
     alignItems    : 'center',
     overflow      : 'hidden',
     marginVertical: 5,
   },
-  headerContainer  : {
+  headerContainer       : {
     flexDirection: 'row',
     width        : '100%',
   },
-  drumIconContainer: {
+  drumIconContainer     : {
     justifyContent: 'flex-start',
     alignItems    : 'flex-end',
     right         : -60,
   },
-  avatarContainer  : {
+  avatarContainer       : {
     marginTop : 20,
     marginLeft: 20,
   },
-  titleContainer   : {
+  titleContainer        : {
     width: '100%',
   },
-  title            : {
+  title                 : {
     flexDirection : 'row',
     alignItems    : 'flex-start',
     justifyContent: 'flex-start',
     margin        : 20,
   },
-  button           : {
+  button                : {
     marginVertical: 20,
     marginBottom  : 40,
     width         : '100%',
   },
-  rowContainer     : {
+  rowContainer          : {
     margin           : 10,
     borderBottomWidth: 1,
     borderBottomColor: c.primary,
@@ -170,22 +169,43 @@ const styles = StyleSheet.create({
     alignItems       : 'flex-start',
     justifyContent   : 'center',
   },
-  rowTextContainer : {
+  rowTextContainer      : {
     flexDirection : 'row',
     justifyContent: 'space-between',
     width         : '100%',
   },
-  rowText          : {
+  rowText               : {
     marginHorizontal: 10,
     fontSize        : 20,
   },
-  rowIcon          : {
+  rowIcon               : {
     marginHorizontal: 20,
   },
-  textContainer    : {
+  textContainer         : {
     width      : '50%',
     marginTop  : 20,
     marginLeft : 10,
     marginRight: 33,
-  }
+  },
+  loggedInRowsContainer : {
+    width         : '100%',
+    marginVertical: '20%',
+
+  },
+  loggedOutRowsContainer: {
+    width         : '100%',
+    marginVertical: '33%',
+  },
+  welcomeText           : {
+    fontSize: 35,
+  },
+  aboutText             : {
+    marginTop: 45,
+  },
+  mainTitle             : {
+    color: c.primary,
+  },
+  buttonContainer       : {
+    width: '90%',
+  },
 })

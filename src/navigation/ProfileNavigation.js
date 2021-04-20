@@ -8,48 +8,69 @@ import { defaultNavigationOptions } from "./common"
 import { OwnAdvertisements } from "../screens/Profile/OwnAdvertisements"
 import { EditAdScreen } from "../screens/Advertisement/EditAd"
 import { AdvertisementDetails, advertisementOptions } from "../screens/Advertisement/AdvertisementDetails"
-import { UserProvider } from "../providers/UserProvider"
+import { useSelector } from "react-redux"
+import { selectAuth, selectUser } from "../redux/reducers/user"
+import { Loader } from "../components/Loader"
+import { Favorites } from "../screens/Favorites/Favorites"
 
 const ProfileStack = createStackNavigator()
 
-export const ProfileStackScreen = () => {
+const profileLoader = loading => props => {
   return (
-    <UserProvider>
-      <ProfileStack.Navigator>
-        <ProfileStack.Screen
-          name={r.profile.name}
-          component={Profile}
-          options={{ title: r.profile.title, ...defaultNavigationOptions }}
-        />
-        <ProfileStack.Screen
-          name={r.about.name}
-          component={About}
-          options={{ title: r.about.title, ...defaultNavigationOptions }}
-        />
-        <ProfileStack.Screen
-          name={r.chat.name}
-          component={Chat}
-          options={{ title: r.chat.title, ...defaultNavigationOptions }}
-        />
-        <ProfileStack.Screen
-          name={r.ownAdvertisements.name}
-          component={OwnAdvertisements}
-          options={{ title: r.ownAdvertisements.title, ...defaultNavigationOptions }}
-        />
-        <ProfileStack.Screen
-          name={r.editAd.name}
-          component={EditAdScreen}
-          options={{ title: r.editAd.title, ...defaultNavigationOptions }}
-        />
-        <ProfileStack.Screen
-          name={r.advertisementDetails.name}
-          component={AdvertisementDetails}
-          options={props => ({
-            ...defaultNavigationOptions,
-            ...advertisementOptions(props),
-          })}
-        />
-      </ProfileStack.Navigator>
-    </UserProvider>
+    <Loader
+      loading={loading}
+    >
+      <Profile {...props}/>
+    </Loader>
+  )
+}
+
+export const ProfileStackScreen = () => {
+  const auth = useSelector(selectAuth)
+  const user = useSelector(selectUser)
+
+  const loading = auth.loading || user.loading
+
+  return (
+    <ProfileStack.Navigator>
+      <ProfileStack.Screen
+        name={r.profile.name}
+        component={profileLoader(loading)}
+        options={{ title: r.profile.title, ...defaultNavigationOptions }}
+      />
+      <ProfileStack.Screen
+        name={r.about.name}
+        component={About}
+        options={{ title: r.about.title, ...defaultNavigationOptions }}
+      />
+      <ProfileStack.Screen
+        name={r.chat.name}
+        component={Chat}
+        options={{ title: r.chat.title, ...defaultNavigationOptions }}
+      />
+      <ProfileStack.Screen
+        name={r.ownAdvertisements.name}
+        component={OwnAdvertisements}
+        options={{ title: r.ownAdvertisements.title, ...defaultNavigationOptions }}
+      />
+      <ProfileStack.Screen
+        name={r.favorites.name}
+        component={Favorites}
+        options={{ title: r.favorites.title, ...defaultNavigationOptions }}
+      />
+      <ProfileStack.Screen
+        name={r.editAd.name}
+        component={EditAdScreen}
+        options={{ title: r.editAd.title, ...defaultNavigationOptions }}
+      />
+      <ProfileStack.Screen
+        name={r.advertisementDetails.name}
+        component={AdvertisementDetails}
+        options={props => ({
+          ...defaultNavigationOptions,
+          ...advertisementOptions(props),
+        })}
+      />
+    </ProfileStack.Navigator>
   )
 }

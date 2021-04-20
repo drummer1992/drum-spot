@@ -1,6 +1,6 @@
 import { reduceReducers } from "./helpers/reduce-reducers"
 import { loadReducer } from "./helpers/load-reducer"
-import { Type as t } from "../types"
+import { fulfilled, Type as t } from "../types"
 import { softCombineReducers } from "./helpers/soft-combine-reducers"
 import { reducersMap } from "./helpers/reducers-map"
 
@@ -11,12 +11,33 @@ const logout = () => ({
   },
 })
 
+const signIn = (state, action) => ({
+  auth: {
+    ...state.auth,
+    ...action.result,
+  }
+})
+
+const putTokenFromStorage = (state, action) => ({
+  ...state,
+  token: action.token,
+})
+
 export default reduceReducers(
   {},
   loadReducer(t.FETCH_USER),
-  reducersMap({ [t.LOG_OUT_USER]: logout }),
+  reducersMap({
+    [t.LOG_OUT_USER]: logout,
+    [fulfilled(t.SIGN_IN_USER)]: signIn,
+  }),
   softCombineReducers({
-    auth: loadReducer(t.SIGN_IN_USER)
+    auth: reduceReducers(
+      {},
+      loadReducer(t.SIGN_IN_USER),
+      reducersMap({
+        [t.FETCH_INITIAL_TOKEN]: putTokenFromStorage,
+      })
+    )
   }),
 )
 

@@ -62,7 +62,7 @@ export const Advertisement = ({ item }) => {
           resizeMode="cover"
         />
         <View style={styles.footer}>
-          <Avatar src={require('../../../assets/ava.jpeg')} size={50} imageStyle={styles.avatar}/>
+          <Avatar src={{ uri: item.user.imageURL }} size={50} imageStyle={styles.avatar}/>
           <View style={styles.textArea}>
             <Text
               style={styles.text}

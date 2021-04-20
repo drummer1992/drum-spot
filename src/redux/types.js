@@ -10,4 +10,5 @@ export const Type = {
   FETCH_USER          : 'user/fetch',
   SIGN_IN_USER        : 'user/signIn',
   LOG_OUT_USER        : 'user/logOut',
+  FETCH_INITIAL_TOKEN : 'user/initialToken',
 }

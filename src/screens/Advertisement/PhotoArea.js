@@ -8,13 +8,13 @@ import { Code } from "../../errors/constants"
 
 const cameraConfig = { width: 300, height: 200, cropping: true }
 
-export const PhotoArea = ({ images, setImages }) => {
+export const PhotoArea = ({ images, onAdd, onDelete }) => {
   const [active, setActive] = useState(0)
 
   const handlePress = selectedImageIndex => {
     const handleChose = fn => () => fn(cameraConfig)
       .then(image => {
-        setImages(images => [image.path, ...images])
+        onAdd(image)
         setActive(0)
       })
       .catch(error => {
@@ -23,10 +23,6 @@ export const PhotoArea = ({ images, setImages }) => {
         }
       })
 
-    const handleDelete = () => {
-      setImages(images => images.filter((_, i) => i !== selectedImageIndex))
-    }
-
     const buttons = [
       { text: 'Камера', onPress: handleChose(ImagePicker.openCamera) },
       { text: 'Галерея', onPress: handleChose(ImagePicker.openPicker) },
@@ -34,7 +30,11 @@ export const PhotoArea = ({ images, setImages }) => {
     ]
 
     if (!isNaN(selectedImageIndex)) {
-      buttons.push({ text: 'Видалити', style: 'destructive', onPress: handleDelete },)
+      buttons.push({
+        text   : 'Видалити',
+        style  : 'destructive',
+        onPress: () => onDelete(selectedImageIndex),
+      })
     }
 
     Alert.alert(

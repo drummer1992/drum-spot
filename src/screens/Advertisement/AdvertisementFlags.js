@@ -6,7 +6,7 @@ import identity from "lodash/identity"
 export const AdvertisementFlags = ({
   isRent,
   setIsRent = identity,
-  isNew,
+  isNewStuff,
   setIsNew = identity,
   readOnly
 }) => {
@@ -41,7 +41,7 @@ export const AdvertisementFlags = ({
         <Button
           title="Новий"
           onPress={() => setIsNew(true)}
-          color={isNew === true ? c.primary : 'grey'}
+          color={isNewStuff === true ? c.primary : 'grey'}
         >
         </Button>
       </Wrapper>
@@ -49,7 +49,7 @@ export const AdvertisementFlags = ({
         <Button
           title="Вживаний"
           onPress={() => setIsNew(false)}
-          color={isNew === false ? c.primary : 'grey'}
+          color={isNewStuff === false ? c.primary : 'grey'}
         />
       </Wrapper>
     </View>

@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { selectUser } from "../../redux/reducers/user"
 import { deleteAdvertisement } from "../../redux/actions/advertisement"
 import { handleDeleteEntity } from "../../alerts/delete"
+import { Container } from "../../components/ui/Container"
 
 const ValueBox = ({ title, value }) => (
   <Card style={styles.valueContainer}>
@@ -66,10 +67,15 @@ export const AdvertisementDetails = ({ route }) => {
             ImageStyle={{ borderRadius: 6 }}
           />
         </Card>
-        <Card style={styles.default}>
+        <View style={styles.titleContainer}>
+          <RegularText style={styles.title}>
+            {item.title}
+          </RegularText>
+        </View>
+        <Container style={styles.default}>
           <View style={styles.valuesContainer}>
             {
-              item.isNew
+              item.isNewStuff
                 ? <ValueBox title="Новий" value={'Так'}/>
                 : <ValueBox title="Стан" value={ConditionMessageByRating[item.rating]}/>
             }
@@ -78,15 +84,15 @@ export const AdvertisementDetails = ({ route }) => {
             <ValueBox title="Місто" value={item.city}/>
             <ValueBox title="Ціна" value={`${item.price} грн`}/>
           </View>
-        </Card>
-        <Card style={styles.detailsContainer}>
+        </Container>
+        <Container style={styles.detailsContainer}>
           <View style={styles.detailsTextContainer}>
-            <BoldText style={{ fontSize: 20 }}>Деталі:</BoldText>
-            <View style={{ marginTop: 10 }}>
+            <BoldText style={styles.details}>Деталі:</BoldText>
+            <View style={styles.detailsSubContainer}>
               <RegularText style={{ marginLeft: 5 }}>{item.details}</RegularText>
             </View>
           </View>
-        </Card>
+        </Container>
         <View style={styles.buttonContainer}>
           <Button
             title={isOwner ? 'Редагувати' : "Зв'язатися з автором"}
@@ -98,13 +104,19 @@ export const AdvertisementDetails = ({ route }) => {
             onPress={handleEdit}
           />
           {
-            isOwner &&
-            <Button
-              title="Видалити"
-              color={c.destructive}
-              style={styles.button}
-              onPress={handleDelete}
-            />
+            isOwner
+              ? <Button
+                title="Видалити"
+                color={c.destructive}
+                style={styles.button}
+                onPress={handleDelete}
+              />
+              : <Button
+                title="Додати у вибране"
+                color={c.primary}
+                style={styles.button}
+                onPress={() => alert('Implement me')}
+              />
           }
         </View>
       </KeyboardAwareScrollView>
@@ -156,7 +168,7 @@ const styles = StyleSheet.create({
   },
   detailsContainer           : {
     width    : '100%',
-    minHeight: 100,
+    minHeight: 60,
     alignSelf: 'center',
     marginTop: 10,
   },
@@ -172,5 +184,19 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     borderColor   : c.primary,
     width         : '100%',
-  }
+  },
+  titleContainer             : {
+    width            : '90%',
+    justifyContent   : 'center',
+    height           : 50,
+    borderBottomWidth: 1,
+    borderBottomColor: c.primary,
+    overflow         : 'hidden',
+  },
+  details                    : { fontSize: 20 },
+  detailsSubContainer        : { marginTop: 10 },
+  title                      : {
+    fontSize  : 20,
+    marginLeft: 10,
+  },
 })

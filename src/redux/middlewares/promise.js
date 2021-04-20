@@ -26,6 +26,8 @@ export const promiseMiddleware = ({ dispatch, getState }) => {
           errorStatus: err.status,
           type       : rejected(type),
         })
+
+        return err
       }
     )
   }

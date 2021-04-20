@@ -8,13 +8,13 @@ import { fetchAdvertisements } from "../../redux/actions/advertisement"
 import identity from 'lodash/identity'
 
 export const Advertisements = ({ predicate = identity }) => {
-  const { advertisements, loading, loaded } = useSelector(selectAdvertisement)
+  const { advertisements, loading, loaded, error } = useSelector(selectAdvertisement)
   const dispatch = useDispatch()
 
   const filtered = advertisements.filter(predicate)
 
   useEffect(() => {
-    if (!loading && !loaded) {
+    if (!loading && !loaded && !error) {
       dispatch(fetchAdvertisements())
     }
   }, [advertisements, loading, loaded])

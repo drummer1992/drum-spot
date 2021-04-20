@@ -40,8 +40,8 @@ const validate = createValidator({
 
 export const AdvertisementEditor = ({ initialState = {}, onPressPublish, buttonTitle }) => {
   const [isRent, setIsRent] = useState(initialState.isRent || false)
-  const [isNew, setIsNew] = useState(initialState.isNew || false)
-  const [priceNegotiating, setPriceNegotiating] = useState(initialState.priceNegotiating)
+  const [isNewStuff, setIsNew] = useState(initialState.isNewStuff || false)
+  const [priceNegotiating, setPriceNegotiating] = useState(Boolean(initialState.priceNegotiating))
   const [title, setTitle] = useState(initialState.title)
   const [price, setPrice] = useState(String(initialState.price || ''))
   const [city, setCity] = useState(initialState.city)
@@ -59,7 +59,7 @@ export const AdvertisementEditor = ({ initialState = {}, onPressPublish, buttonT
       city,
       images,
       rating,
-      isNew,
+      isNewStuff,
       isRent,
       priceNegotiating,
       ownerId: _id,
@@ -83,6 +83,12 @@ export const AdvertisementEditor = ({ initialState = {}, onPressPublish, buttonT
       })
   }
 
+  const handleAddImage = image => setImages(images => [image, ...images])
+
+  const handleDelete = selectedImageIndex => {
+    setImages(images => images.filter((_, i) => i !== selectedImageIndex))
+  }
+
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <KeyboardAwareScrollView
@@ -91,17 +97,21 @@ export const AdvertisementEditor = ({ initialState = {}, onPressPublish, buttonT
       >
         <Card style={styles.card}>
           <Card style={styles.imageContainer}>
-            <PhotoArea setImages={setImages} images={images}/>
+            <PhotoArea
+              images={images.map(i => i.path)}
+              onAdd={handleAddImage}
+              onDelete={handleDelete}
+            />
           </Card>
           <View style={styles.advertisementTypesContainer}>
             <AdvertisementFlags
               isRent={isRent}
               setIsRent={setIsRent}
-              isNew={isNew}
+              isNewStuff={isNewStuff}
               setIsNew={setIsNew}
             />
           </View>
-          {!isNew && <ConditionRating onPress={setRating} rating={rating}/>}
+          {!isNewStuff && <ConditionRating onPress={setRating} rating={rating}/>}
           <View style={styles.inputContainer}>
             <InputHeader title="Заголовок оголошення"/>
             <Input

@@ -3,15 +3,15 @@ class DrumSpotAPI {
     this.request = request
   }
 
-  async getProfile() {
+  getProfile() {
     return this.request.get('/user')
   }
 
-  async signInByFb(accessToken) {
+  signInByFb(accessToken) {
     return this.request.post('/user/signIn').send({ accessToken })
   }
 
-  async createAdvertisement({ images, ...data }) {
+  createAdvertisement({ images, ...data }) {
     const formData = new FormData()
 
     formData.append('body', JSON.stringify(data))
@@ -27,20 +27,57 @@ class DrumSpotAPI {
       formData.append(body.name, body)
     })
 
-    return this.request.post('/user/advertisement')
+    return this.request.post('/user/advertisements')
       .form(formData)
   }
 
-  async updateAdvertisement() {
-    return null
+  updateAdvertisement(addId, data) {
+    if (data.price) {
+      data.price = Number(data.price)
+    }
+
+    return this.request.patch(`/user/advertisements/${addId}`)
+      .send(data)
+  }
+
+  addAdvertisementImage(adId, image) {
+    const formData = new FormData()
+
+    const body = {
+      uri : image.path,
+      type: image.mime,
+      name: image.filename,
+    }
+
+    formData.append(body.name, body)
+
+    return this.request.patch(`/user/advertisements/${adId}/images`)
+      .form(formData)
+  }
+
+  addToFavorites(id) {
+    return this.request.post(`/user/favorites/${id}`)
+  }
+
+  getFavorites() {
+    return this.request.get('/user/favorites')
+  }
+
+  deleteFromFavorites(id) {
+    return this.request.delete(`/user/favorites/${id}`)
+  }
+
+  deleteAdvertisement(id) {
+    return this.request.delete(`/user/advertisements/${id}`)
   }
 
 
-  async deleteAdvertisement() {
-    return null
+  deleteAdvertisementImage(id, imagePath) {
+    return this.request.delete(`/user/advertisements/${id}/images`)
+      .send({ path: imagePath })
   }
 
-  async getAdvertisements() {
+  getAdvertisements() {
     return this.request.get('/user/advertisements')
   }
 }

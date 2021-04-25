@@ -33,7 +33,7 @@ export const PhotoArea = ({ images, onAdd, onDelete }) => {
       buttons.push({
         text   : 'Видалити',
         style  : 'destructive',
-        onPress: () => onDelete(selectedImageIndex),
+        onPress: () => onDelete(images[selectedImageIndex]),
       })
     }
 

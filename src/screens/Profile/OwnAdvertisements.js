@@ -7,6 +7,6 @@ export const OwnAdvertisements = () => {
   const { _id } = useSelector(selectUser)
 
   return <Advertisements
-    predicate={advertisement => advertisement.ownerId === _id}
+    predicate={advertisement => advertisement.user._id === _id}
   />
 }

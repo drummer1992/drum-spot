@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { StyleSheet, View } from "react-native"
+import { Alert, StyleSheet, View } from "react-native"
 import { Card } from "../../components/ui/Card"
 import { ImageSlider } from "../../components/ui/Slider"
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
@@ -9,10 +9,11 @@ import { ConditionMessageByRating } from "../../components/ConditionRating"
 import { Button } from "../../components/ui/Button"
 import { useNavigation } from "@react-navigation/native"
 import { useDispatch, useSelector } from "react-redux"
-import { selectUser } from "../../redux/reducers/user"
+import { selectFavoritesState, selectUser } from "../../redux/reducers/user"
 import { deleteAdvertisement } from "../../redux/actions/advertisement"
 import { handleDeleteEntity } from "../../alerts/delete"
 import { Container } from "../../components/ui/Container"
+import { addToFavorites, deleteFromFavorites } from "../../redux/actions/user"
 
 const ValueBox = ({ title, value }) => (
   <Card style={styles.valueContainer}>
@@ -24,25 +25,30 @@ const ValueBox = ({ title, value }) => (
 )
 
 export const AdvertisementDetails = ({ route }) => {
-  const [active, setActive] = useState(0)
+  const [activeImage, setActiveImage] = useState(0)
   const { item } = route.params
 
   const user = useSelector(selectUser)
+  const favorites = useSelector(selectFavoritesState)
 
-  const isOwner = user && user._id === item.ownerId
+  const isOwner = user && user._id === item.user._id
+  const isFavorite = favorites.list.includes(item._id)
 
   const navigation = useNavigation()
   const dispatch = useDispatch()
 
-  const handleEdit = () => {
-    if (isOwner) {
-      return navigation.navigate({
-        name  : r.editAd.name,
-        params: { item },
-      })
-    }
+  const goToEditor = () => {
+    navigation.navigate({
+      name  : r.editAd.name,
+      params: { item },
+    })
+  }
 
-    navigation.navigate(r.chat.name)
+  const goToChat = () => {
+    navigation.navigate({
+      name  : r.chat.name,
+      params: { userId: item.user._id }
+    })
   }
 
   const handleDelete = () => {
@@ -50,6 +56,22 @@ export const AdvertisementDetails = ({ route }) => {
       navigation.navigate(r.home.name)
       dispatch(deleteAdvertisement(item._id))
     })
+  }
+
+  const handleFavorites = action => () => {
+    if (!user._id) {
+      return Alert.alert(
+        'Ви не авторизовані',
+        'Нажаль ця дія доступна тільки авторизованим користувачам',
+        [
+          { text: 'Перейти до логіну', onPress: () => navigation.navigate(r.profile.name) },
+          { text: 'Назад' },
+        ],
+        { cancelable: false },
+      )
+    }
+
+    dispatch(action(item._id))
   }
 
   return (
@@ -61,8 +83,8 @@ export const AdvertisementDetails = ({ route }) => {
         <Card style={styles.imageContainer}>
           <ImageSlider
             images={item.images}
-            setActive={setActive}
-            active={active}
+            setActive={setActiveImage}
+            active={activeImage}
             resizeMode="cover"
             ImageStyle={{ borderRadius: 6 }}
           />
@@ -94,15 +116,21 @@ export const AdvertisementDetails = ({ route }) => {
           </View>
         </Container>
         <View style={styles.buttonContainer}>
-          <Button
-            title={isOwner ? 'Редагувати' : "Зв'язатися з автором"}
-            color={c.primary}
-            style={{
-              borderColor: c.primary,
-              width      : '100%',
-            }}
-            onPress={handleEdit}
-          />
+          {
+            isOwner
+              ? <Button
+                title="Редагувати"
+                color={c.primary}
+                style={styles.button}
+                onPress={goToEditor}
+              />
+              : <Button
+                title="Зв'язатися з автором"
+                color={c.primary}
+                style={styles.button}
+                onPress={goToChat}
+              />
+          }
           {
             isOwner
               ? <Button
@@ -112,10 +140,10 @@ export const AdvertisementDetails = ({ route }) => {
                 onPress={handleDelete}
               />
               : <Button
-                title="Додати у вибране"
+                title={isFavorite ? "Видалити з вибраного" : "Додати у вибране"}
                 color={c.primary}
                 style={styles.button}
-                onPress={() => alert('Implement me')}
+                onPress={handleFavorites(isFavorite ? deleteFromFavorites : addToFavorites)}
               />
           }
         </View>
@@ -181,7 +209,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
   },
   button                     : {
-    marginVertical: 10,
+    marginVertical: 5,
     borderColor   : c.primary,
     width         : '100%',
   },

@@ -1,9 +1,9 @@
 import { pending, fulfilled, rejected } from '../types'
 
-export const promiseMiddleware = ({ dispatch, getState }) => {
+export const promiseMiddleware = store => {
   return next => action => {
     if (typeof action === 'function') {
-      return action(dispatch, getState)
+      return action(store.dispatch, store.getState)
     }
 
     const { promise, type, ...rest } = action
@@ -14,21 +14,43 @@ export const promiseMiddleware = ({ dispatch, getState }) => {
 
     next({ ...rest, type: pending(type) })
 
-    return action.promise.then(
-      result => next({ ...rest, payload: result, type: fulfilled(type) }),
-      err => {
-        console.error(err.stack || err)
+    let onThen
+    let onCatch
+
+    const thenable = action.promise
+      .then(result => {
+          next({ ...rest, payload: result, type: fulfilled(type) })
+
+          return onThen && onThen(result)
+        }
+      )
+      .catch(error => {
+        console.error(error.stack)
 
         next({
           ...rest,
-          error      : err.message,
-          errorCode  : err.code,
-          errorStatus: err.status,
+          error      : error.message,
+          errorCode  : error.code,
+          errorStatus: error.status,
           type       : rejected(type),
         })
 
-        return err
-      }
-    )
+        return onCatch && onCatch(error)
+      })
+
+    thenable.then = (onSuccessHandler, onErrorHandler) => {
+      onThen = onSuccessHandler
+      onCatch = onErrorHandler
+
+      return thenable
+    }
+
+    thenable.catch = onErrorHandler => {
+      onCatch = onErrorHandler
+
+      return thenable
+    }
+
+    return thenable
   }
 }

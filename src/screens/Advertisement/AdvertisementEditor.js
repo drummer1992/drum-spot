@@ -7,11 +7,9 @@ import { ConditionRating } from "../../components/ConditionRating"
 import { Input, InputHeader } from "../../components/ui/Input"
 import { Button } from "../../components/ui/Button"
 import { Color as c } from "../../constants/app"
-import React, { useState } from "react"
+import React from "react"
 import { createValidator } from "../../errors/validator"
 import { array, max, maxLength, min, minLength, required } from "../../errors/validator/validators"
-import { useSelector } from "react-redux"
-import { selectUser } from "../../redux/reducers/user"
 
 const validate = createValidator({
   title  : [
@@ -38,21 +36,31 @@ const validate = createValidator({
   ],
 })
 
-export const AdvertisementEditor = ({ initialState = {}, onPressPublish, buttonTitle }) => {
-  const [isRent, setIsRent] = useState(initialState.isRent || false)
-  const [isNewStuff, setIsNew] = useState(initialState.isNewStuff || false)
-  const [priceNegotiating, setPriceNegotiating] = useState(Boolean(initialState.priceNegotiating))
-  const [title, setTitle] = useState(initialState.title)
-  const [price, setPrice] = useState(String(initialState.price || ''))
-  const [city, setCity] = useState(initialState.city)
-  const [details, setDetails] = useState(initialState.details)
-  const [images, setImages] = useState(initialState.images || [])
-  const [rating, setRating] = useState(initialState.rating || 4)
-
-  const { _id } = useSelector(selectUser)
-
+export const AdvertisementEditor = ({
+  onPressPublish,
+  buttonTitle,
+  onDeleteImage,
+  onAddImage,
+  title,
+  price,
+  details,
+  city,
+  images,
+  rating,
+  isNewStuff,
+  isRent,
+  priceNegotiating,
+  setIsRent,
+  setIsNew,
+  setRating,
+  setTitle,
+  setPrice,
+  setCity,
+  setDetails,
+  setPriceNegotiating,
+}) => {
   const handleSubmit = () => {
-    const newAd = {
+    const data = {
       title,
       price,
       details,
@@ -62,31 +70,15 @@ export const AdvertisementEditor = ({ initialState = {}, onPressPublish, buttonT
       isNewStuff,
       isRent,
       priceNegotiating,
-      ownerId: _id,
     }
 
-    const { valid, message } = validate(newAd)
+    const { valid, message } = validate(data)
 
     if (!valid) {
       return Alert.alert('Помилка валідації', message)
     }
 
-    return onPressPublish(newAd)
-      .then(() => {
-        setIsRent(false)
-        setIsNew(false)
-        setTitle('')
-        setPrice('')
-        setCity('')
-        setDetails('')
-        setImages([])
-      })
-  }
-
-  const handleAddImage = image => setImages(images => [image, ...images])
-
-  const handleDelete = selectedImageIndex => {
-    setImages(images => images.filter((_, i) => i !== selectedImageIndex))
+    return onPressPublish(data)
   }
 
   return (
@@ -98,9 +90,9 @@ export const AdvertisementEditor = ({ initialState = {}, onPressPublish, buttonT
         <Card style={styles.card}>
           <Card style={styles.imageContainer}>
             <PhotoArea
-              images={images.map(i => i.path)}
-              onAdd={handleAddImage}
-              onDelete={handleDelete}
+              images={images}
+              onAdd={onAddImage}
+              onDelete={onDeleteImage}
             />
           </Card>
           <View style={styles.advertisementTypesContainer}>

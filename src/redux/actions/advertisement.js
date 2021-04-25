@@ -22,3 +22,16 @@ export const deleteAdvertisement = _id => ({
   type     : t.DELETE_ADVERTISEMENT,
   apiCall  : api => api.deleteAdvertisement(_id),
 })
+
+export const deleteAdvertisementImage = (_id, image) => ({
+  _id,
+  image,
+  type   : t.DELETE_ADVERTISEMENT_IMAGE,
+  apiCall: api => api.deleteAdvertisementImage(_id, image)
+})
+
+export const addAdvertisementImage = (_id, image) => ({
+  _id,
+  type   : t.ADD_ADVERTISEMENT_IMAGE,
+  apiCall: api => api.addAdvertisementImage(_id, image)
+})

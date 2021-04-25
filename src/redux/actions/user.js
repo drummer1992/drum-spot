@@ -36,3 +36,20 @@ export const discardUserToken = () => (dispatch, getState) => {
     })
   }
 }
+
+export const addToFavorites = id => ({
+  id,
+  type   : t.ADD_TO_FAVORITES,
+  apiCall: api => api.addToFavorites(id)
+})
+
+export const fetchFavorites = () => ({
+  type   : t.FETCH_FAVORITES,
+  apiCall: api => api.getFavorites()
+})
+
+export const deleteFromFavorites = id => ({
+  predicate: id,
+  type     : t.DELETE_FROM_FAVORITES,
+  apiCall  : api => api.deleteFromFavorites(id)
+})

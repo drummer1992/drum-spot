@@ -59,7 +59,7 @@ export const Navigation = () => {
           />
         )}
         <Tab.Screen
-          name={r.ownAdvertisements.name}
+          name={r.profile.name}
           component={ProfileStackScreen}
           options={tabBarIconOptions({
             title        : r.profile.title,

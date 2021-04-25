@@ -16,7 +16,7 @@ export const Advertisement = ({ item }) => {
   const user = useSelector(selectUser)
   const dispatch = useDispatch()
 
-  const isOwner = user && user._id === item.ownerId
+  const isOwner = user && user._id === item.user._id
 
   const handlePress = () => {
     navigation.navigate({
@@ -31,7 +31,7 @@ export const Advertisement = ({ item }) => {
   })
 
   const deleteItem = () => {
-    handleDeleteEntity(title, () => dispatch(deleteAdvertisement(item.id)))
+    handleDeleteEntity(title, () => dispatch(deleteAdvertisement(item._id)))
   }
 
   const handleLongPress = () => {

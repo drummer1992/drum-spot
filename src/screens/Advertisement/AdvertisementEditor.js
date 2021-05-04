@@ -1,5 +1,11 @@
-import { Alert, Keyboard, StyleSheet, Switch, TouchableWithoutFeedback, View } from "react-native"
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
+import {
+  Alert,
+  KeyboardAvoidingView,
+  ScrollView,
+  StyleSheet,
+  Switch,
+  View,
+} from "react-native"
 import { Card } from "../../components/ui/Card"
 import { PhotoArea } from "./PhotoArea"
 import { AdvertisementFlags } from "./AdvertisementFlags"
@@ -7,7 +13,7 @@ import { ConditionRating } from "../../components/ConditionRating"
 import { Input, InputHeader } from "../../components/ui/Input"
 import { Button } from "../../components/ui/Button"
 import { Color as c } from "../../constants/app"
-import React from "react"
+import React, { useRef } from "react"
 import { createValidator } from "../../errors/validator"
 import { array, max, maxLength, min, minLength, required } from "../../errors/validator/validators"
 
@@ -59,6 +65,8 @@ export const AdvertisementEditor = ({
   setDetails,
   setPriceNegotiating,
 }) => {
+  const viewRef = useRef()
+
   const handleSubmit = () => {
     const data = {
       title,
@@ -81,12 +89,17 @@ export const AdvertisementEditor = ({
     return onPressPublish(data)
   }
 
+  const scrollToInputs = () => viewRef.current.scrollTo({ x: 0, y: 400, animated: true })
+  const handleFocus = () => setTimeout(scrollToInputs, 500)
+
   return (
-    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <KeyboardAwareScrollView
-        resetScrollToCoords={{ x: 0, y: 0 }}
-        showsVerticalScrollIndicator={false}
-        extraScrollHeight={40}
+    <KeyboardAvoidingView
+      behavior="padding"
+      style={{ flex: 1 }}
+      keyboardVerticalOffset={40}
+    >
+      <ScrollView
+        ref={viewRef}
       >
         <Card style={styles.card}>
           <Card style={styles.imageContainer}>
@@ -111,6 +124,7 @@ export const AdvertisementEditor = ({
               onChangeText={setTitle}
               placeHolder="Наприклад: Zildjian A Custom Hi-Hat 14"
               text={title}
+              onFocus={handleFocus}
             />
             <InputHeader title="Ціна"/>
             <Input
@@ -118,18 +132,21 @@ export const AdvertisementEditor = ({
               placeHolder="Наприклад: 6000"
               text={price}
               keyboardType="numeric"
+              onFocus={handleFocus}
             />
             <InputHeader title="Місто"/>
             <Input
               onChangeText={setCity}
               placeHolder="Наприклад: Київ"
               text={city}
+              onFocus={handleFocus}
             />
             <InputHeader title="Деталі"/>
             <Input
               onChangeText={setDetails}
               placeHolder="Наприклад: Звук шик..."
               text={details}
+              onFocus={handleFocus}
             />
           </View>
           <View style={styles.switchContainer}>
@@ -147,8 +164,8 @@ export const AdvertisementEditor = ({
             style={styles.button}
           />
         </Card>
-      </KeyboardAwareScrollView>
-    </TouchableWithoutFeedback>
+      </ScrollView>
+    </KeyboardAvoidingView>
   )
 }
 

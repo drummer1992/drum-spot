@@ -1,8 +1,7 @@
 import React, { useState } from "react"
-import { StyleSheet, View } from "react-native"
+import { ScrollView, StyleSheet, View } from "react-native"
 import { Card } from "../../components/ui/Card"
 import { ImageSlider } from "../../components/ui/Slider"
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
 import { Color as c, Route as r } from "../../constants/app"
 import { BoldText, RegularText } from "../../components/ui/Text"
 import { ConditionMessageByRating } from "../../components/ConditionRating"
@@ -71,11 +70,8 @@ export const AdvertisementDetails = ({ route }) => {
   }
 
   return (
-    <Card style={styles.container}>
-      <KeyboardAwareScrollView
-        resetScrollToCoords={{ x: 0, y: 0 }}
-        showsVerticalScrollIndicator={false}
-      >
+    <ScrollView>
+      <Card style={styles.container}>
         <Card style={styles.imageContainer}>
           <ImageSlider
             images={item.images}
@@ -143,8 +139,8 @@ export const AdvertisementDetails = ({ route }) => {
               />
           }
         </View>
-      </KeyboardAwareScrollView>
-    </Card>
+      </Card>
+    </ScrollView>
   )
 }
 

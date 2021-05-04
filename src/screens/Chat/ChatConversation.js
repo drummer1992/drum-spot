@@ -1,5 +1,12 @@
-import React, { useState, useEffect } from "react"
-import { StyleSheet, View, FlatList, TextInput, TouchableOpacity, KeyboardAvoidingView } from "react-native"
+import React, { useState, useEffect, useRef } from "react"
+import {
+  StyleSheet,
+  View,
+  FlatList,
+  TextInput,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+} from "react-native"
 import { Container } from "../../components/ui/Container"
 import { HeaderButtons } from "react-navigation-header-buttons"
 import { Color as c } from "../../constants/app"
@@ -34,7 +41,7 @@ const Message = ({
 
 export const ChatConversation = ({ route: { params: { participant } } }) => {
   const [input, setInput] = useState('')
-
+  const scrollViewRef = useRef()
   const dispatch = useDispatch()
   const user = useSelector(selectUser)
   const conversation = useSelector(selectConversationByParticipantId(participant._id))
@@ -61,46 +68,55 @@ export const ChatConversation = ({ route: { params: { participant } } }) => {
     setInput('')
   }
 
+  const moveContent = () => {
+    scrollViewRef.current.scrollToEnd({ animated: true })
+  }
+
   return (
-      <KeyboardAvoidingView
-        behavior="padding"
-        style={{ flex: 1 }}
-        keyboardVerticalOffset={DEVICE_HEIGHT / 7}
-      >
-        <Container>
-          <View style={styles.container}>
-            <FlatList
-              data={conversation?.messages || []}
-              renderItem={({ item }) => (
-                <Message
-                  user={user}
-                  participant={participant}
-                  {...item}
-                />
-              )}
-              keyExtractor={({ _id }) => _id}
-            />
-          </View>
-          <View style={styles.inputArea}>
-            <View style={styles.inputContainer}>
+    <KeyboardAvoidingView
+      behavior="padding"
+      style={{ flex: 1 }}
+      keyboardVerticalOffset={DEVICE_HEIGHT / 7}
+    >
+      <Container>
+        <View style={styles.container}>
+          <FlatList
+            ref={scrollViewRef}
+            onContentSizeChange={moveContent}
+            data={conversation?.messages || []}
+            renderItem={({ item }) => (
+              <Message
+                user={user}
+                participant={participant}
+                {...item}
+              />
+            )}
+            keyExtractor={({ _id }) => _id}
+          />
+        </View>
+        <View style={styles.inputArea}>
+          <View style={styles.inputContainer}>
               <TextInput
+                onFocus={() => {
+                  setTimeout(moveContent, 500)
+                }}
                 placeholder="Введіть текст повідомлення..."
                 onChangeText={setInput}
                 value={input}
                 multiline={true}
               />
-            </View>
-            <View style={styles.sendIcon}>
-              <TouchableOpacity
-                style={{ left: 2 }}
-                onPress={handleMessageSend}
-              >
-                <MaterialCommunityIcons name="send" size={30} color={'#fff'}/>
-              </TouchableOpacity>
-            </View>
           </View>
-        </Container>
-      </KeyboardAvoidingView>
+          <View style={styles.sendIcon}>
+            <TouchableOpacity
+              style={{ left: 2 }}
+              onPress={handleMessageSend}
+            >
+              <MaterialCommunityIcons name="send" size={30} color={'#fff'}/>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Container>
+    </KeyboardAvoidingView>
   )
 }
 
@@ -185,11 +201,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
   },
   messageFooter   : {
-    flexDirection    : 'row',
-    marginTop        : 5,
-    alignSelf        : 'flex-end',
-    alignItems       : 'flex-end',
-    justifyContent   : 'space-evenly',
+    flexDirection : 'row',
+    marginTop     : 5,
+    alignSelf     : 'flex-end',
+    alignItems    : 'flex-end',
+    justifyContent: 'space-evenly',
   },
   messageDate     : {
     fontSize   : 14,
@@ -205,9 +221,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#e8e8e8',
   },
   inputArea       : {
-    flexDirection: 'row',
-    height       : DEVICE_HEIGHT / 17,
-    width        : '100%',
+    flexDirection : 'row',
+    height        : DEVICE_HEIGHT / 17,
+    width         : '100%',
     marginVertical: 8,
   },
   sendIcon        : {

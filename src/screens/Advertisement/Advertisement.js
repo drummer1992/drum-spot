@@ -1,5 +1,5 @@
 import React from "react"
-import { View, StyleSheet, Text, Image, TouchableOpacity, Alert } from 'react-native'
+import { View, StyleSheet, Image, TouchableOpacity, Alert } from 'react-native'
 import Avatar from "../../components/ui/Avatar"
 import { Card } from "../../components/ui/Card"
 import { useNavigation } from "@react-navigation/native"
@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { selectUser } from "../../redux/reducers/user"
 import { deleteAdvertisement } from "../../redux/actions/advertisement"
 import { alertDeleteAdvertisement } from "../../alerts"
+import { BoldText, RegularText } from "../../components/ui/Text"
 
 export const Advertisement = ({ item }) => {
   const { images, title, price } = item
@@ -62,20 +63,10 @@ export const Advertisement = ({ item }) => {
           resizeMode="cover"
         />
         <View style={styles.footer}>
-          <Avatar src={{ uri: item.user.imageURL }} size={50} imageStyle={styles.avatar}/>
+          <Avatar src={{ uri: item.user.imageURL }} size={55} imageStyle={styles.avatar}/>
           <View style={styles.textArea}>
-            <Text
-              style={styles.text}
-              numberOfLines={1}
-            >
-              {title}
-            </Text>
-            <Text
-              style={{ ...styles.text, fontFamily: 'roboto-bold', fontSize: 18 }}
-              numberOfLines={1}
-            >
-              {price} грн
-            </Text>
+            <BoldText style={styles.text} numberOfLines={1}>{title}</BoldText>
+            <RegularText numberOfLines={1}>{price} грн</RegularText>
           </View>
         </View>
       </Card>
@@ -84,32 +75,32 @@ export const Advertisement = ({ item }) => {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  container     : {
     height        : 220,
     marginVertical: 6,
   },
-  image    : {
+  image         : {
     borderTopLeftRadius : 6,
     borderTopRightRadius: 6,
     width               : '100%',
     height              : '80%',
   },
-  avatar   : {
+  avatar        : {
     left  : 5,
     bottom: 20,
   },
-  footer   : {
+  footer        : {
     flexDirection: 'row',
   },
-  textArea : {
-    flexDirection   : 'row',
-    alignItems      : 'center',
-    marginHorizontal: 10,
-    marginBottom    : 10,
-    width           : '85%',
+  textArea      : {
+    flexDirection: 'row',
+    alignItems   : 'center',
+    marginLeft   : 10,
+    marginBottom : 10,
+    width        : '100%',
   },
-  text     : {
+  text          : {
     width   : '63%',
     overflow: 'hidden',
-  }
+  },
 })

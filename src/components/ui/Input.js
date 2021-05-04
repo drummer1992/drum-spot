@@ -12,6 +12,7 @@ export const Input = ({
   text,
   placeHolder,
   keyboardType,
+  onFocus
 }) => (
   <View style={{ ...styles.container }}>
     <View style={{ ...styles.wrapper }}>
@@ -22,6 +23,7 @@ export const Input = ({
         keyboardType={keyboardType}
         style={{ ...styles.input, }}
         multiline={true}
+        onFocus={onFocus}
       />
     </View>
   </View>

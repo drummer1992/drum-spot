@@ -1,7 +1,7 @@
+import React, { useEffect } from "react"
 import { Container } from "../../components/ui/Container"
 import { FlatList } from "react-native"
 import { Advertisement } from "./Advertisement"
-import React, { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { selectAdvertisements } from "../../redux/reducers/advertisement"
 import { fetchAdvertisements } from "../../redux/actions/advertisement"

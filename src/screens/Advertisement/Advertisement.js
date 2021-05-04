@@ -7,7 +7,7 @@ import { Route as r } from "../../constants/app"
 import { useDispatch, useSelector } from "react-redux"
 import { selectUser } from "../../redux/reducers/user"
 import { deleteAdvertisement } from "../../redux/actions/advertisement"
-import { handleDeleteEntity } from "../../alerts/delete"
+import { alertDeleteAdvertisement } from "../../alerts"
 
 export const Advertisement = ({ item }) => {
   const { images, title, price } = item
@@ -31,7 +31,7 @@ export const Advertisement = ({ item }) => {
   })
 
   const deleteItem = () => {
-    handleDeleteEntity(title, () => dispatch(deleteAdvertisement(item._id)))
+    alertDeleteAdvertisement(title, () => dispatch(deleteAdvertisement(item._id)))
   }
 
   const handleLongPress = () => {

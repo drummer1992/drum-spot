@@ -7,11 +7,12 @@ import { createStackNavigator } from "@react-navigation/stack"
 import { defaultNavigationOptions } from "./common"
 import { OwnAdvertisements } from "../screens/Profile/OwnAdvertisements"
 import { EditAdScreen } from "../screens/Advertisement/EditAd"
-import { AdvertisementDetails, advertisementOptions } from "../screens/Advertisement/AdvertisementDetails"
+import { AdvertisementDetails } from "../screens/Advertisement/AdvertisementDetails"
 import { useSelector } from "react-redux"
 import { selectAuth, selectUser } from "../redux/reducers/user"
 import { Loader } from "../components/Loader"
 import { Favorites } from "../screens/Favorites/Favorites"
+import { ChatConversation, chatConversationOptions } from "../screens/Chat/ChatConversation"
 
 const ProfileStack = createStackNavigator()
 
@@ -49,6 +50,14 @@ export const ProfileStackScreen = () => {
         options={{ title: r.chat.title, ...defaultNavigationOptions }}
       />
       <ProfileStack.Screen
+        name={r.chatConversation.name}
+        component={ChatConversation}
+        options={props => ({
+          ...defaultNavigationOptions,
+          ...chatConversationOptions(props)
+        })}
+      />
+      <ProfileStack.Screen
         name={r.ownAdvertisements.name}
         component={OwnAdvertisements}
         options={{ title: r.ownAdvertisements.title, ...defaultNavigationOptions }}
@@ -66,10 +75,10 @@ export const ProfileStackScreen = () => {
       <ProfileStack.Screen
         name={r.advertisementDetails.name}
         component={AdvertisementDetails}
-        options={props => ({
+        options={{
           ...defaultNavigationOptions,
-          ...advertisementOptions(props),
-        })}
+          title: r.advertisementDetails.title,
+        }}
       />
     </ProfileStack.Navigator>
   )

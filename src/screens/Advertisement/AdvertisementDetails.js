@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Alert, StyleSheet, View } from "react-native"
+import { StyleSheet, View } from "react-native"
 import { Card } from "../../components/ui/Card"
 import { ImageSlider } from "../../components/ui/Slider"
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
@@ -11,7 +11,7 @@ import { useNavigation } from "@react-navigation/native"
 import { useDispatch, useSelector } from "react-redux"
 import { selectFavoritesState, selectUser } from "../../redux/reducers/user"
 import { deleteAdvertisement } from "../../redux/actions/advertisement"
-import { handleDeleteEntity } from "../../alerts/delete"
+import { alertDeleteAdvertisement, loginGuardAlert } from "../../alerts"
 import { Container } from "../../components/ui/Container"
 import { addToFavorites, deleteFromFavorites } from "../../redux/actions/user"
 
@@ -31,7 +31,7 @@ export const AdvertisementDetails = ({ route }) => {
   const user = useSelector(selectUser)
   const favorites = useSelector(selectFavoritesState)
 
-  const isOwner = user && user._id === item.user._id
+  const isOwner = user._id === item.user._id
   const isFavorite = favorites.list.includes(item._id)
 
   const navigation = useNavigation()
@@ -45,14 +45,18 @@ export const AdvertisementDetails = ({ route }) => {
   }
 
   const goToChat = () => {
-    navigation.navigate({
-      name  : r.chat.name,
-      params: { userId: item.user._id }
-    })
+    if (user._id) {
+      return navigation.navigate({
+        name  : r.chatConversation.name,
+        params: { participant: item.user }
+      })
+    }
+
+    loginGuardAlert(navigation, 'Щоб почати бесіду, необхідно залогінитися')
   }
 
   const handleDelete = () => {
-    handleDeleteEntity(item.title, () => {
+    alertDeleteAdvertisement(item.title, () => {
       navigation.navigate(r.home.name)
       dispatch(deleteAdvertisement(item._id))
     })
@@ -60,15 +64,7 @@ export const AdvertisementDetails = ({ route }) => {
 
   const handleFavorites = action => () => {
     if (!user._id) {
-      return Alert.alert(
-        'Ви не авторизовані',
-        'Нажаль ця дія доступна тільки авторизованим користувачам',
-        [
-          { text: 'Перейти до логіну', onPress: () => navigation.navigate(r.profile.name) },
-          { text: 'Назад' },
-        ],
-        { cancelable: false },
-      )
+      return loginGuardAlert(navigation, 'Щоб зберігати у вибране, необхідно залогінитися!')
     }
 
     dispatch(action(item._id))
@@ -151,10 +147,6 @@ export const AdvertisementDetails = ({ route }) => {
     </Card>
   )
 }
-
-export const advertisementOptions = ({ route }) => ({
-  title: route.params.item.title,
-})
 
 const styles = StyleSheet.create({
   default                    : {

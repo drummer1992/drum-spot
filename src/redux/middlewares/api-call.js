@@ -1,11 +1,12 @@
 import createClient from "../../api/client"
 import { discardUserToken } from "../actions/user"
+import { HOST } from '@env'
 
 let client
 
 export const getClient = getState => {
   if (!client) {
-    client = createClient('http://192.168.0.101:3000', getState().user.auth.token)
+    client = createClient(HOST, getState().user.auth.token)
   }
 
   return client

@@ -11,10 +11,11 @@ export const Route = {
   },
   editAd              : {
     name : 'EditAd',
-    title: 'Редагування оголошення',
+    title: 'Редагування',
   },
   advertisementDetails: {
-    name: 'AdvertisementDetails',
+    name : 'AdvertisementDetails',
+    title: 'Деталі',
   },
   ownAdvertisements   : {
     name : 'OwnAdvertisements',
@@ -23,6 +24,9 @@ export const Route = {
   chat                : {
     name : 'Chat',
     title: 'Чат',
+  },
+  chatConversation    : {
+    name: 'ChatConversation',
   },
   favorites           : {
     name : 'Favorites',
@@ -44,6 +48,6 @@ export const Route = {
 
 export const Color = {
   primary    : '#55ab7d',
-  secondary  : '#333',
+  secondary  : '#9e9696',
   destructive: '#fc3d39',
 }

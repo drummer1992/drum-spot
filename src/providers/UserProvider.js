@@ -8,22 +8,19 @@ import { Type as t } from "../redux/types"
 
 const TokenProvider = ({ children }) => {
   const [ready, setReady] = useState(false)
-  const auth = useSelector(selectAuth)
   const dispatch = useDispatch()
 
   useEffect(() => {
-    if (!('token' in auth)) {
-      dispatch(async () => {
-        const token = await getToken()
+    dispatch(async () => {
+      const token = await getToken()
 
-        dispatch({ type: [t.FETCH_INITIAL_TOKEN], token })
-      })
-    }
+      if (token) {
+        dispatch({ type: t.COLLECT_TOKEN, token })
+      }
 
-    if (auth.token || auth.token === null) {
       setReady(true)
-    }
-  }, [auth])
+    })
+  }, [])
 
   return (
     <Loader loading={!ready}>

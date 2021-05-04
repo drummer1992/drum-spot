@@ -86,6 +86,7 @@ export const AdvertisementEditor = ({
       <KeyboardAwareScrollView
         resetScrollToCoords={{ x: 0, y: 0 }}
         showsVerticalScrollIndicator={false}
+        extraScrollHeight={40}
       >
         <Card style={styles.card}>
           <Card style={styles.imageContainer}>

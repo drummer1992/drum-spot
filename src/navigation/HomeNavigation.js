@@ -1,6 +1,6 @@
 import { Route as r } from "../constants/app"
 import { HomeScreen, homeScreenOptions } from "../screens/Home/Home"
-import { AdvertisementDetails, advertisementOptions } from "../screens/Advertisement/AdvertisementDetails"
+import { AdvertisementDetails } from "../screens/Advertisement/AdvertisementDetails"
 import { Chat } from "../screens/Chat/Chat"
 import { Favorites } from "../screens/Favorites/Favorites"
 import React from "react"
@@ -8,6 +8,7 @@ import { createStackNavigator } from "@react-navigation/stack"
 import { defaultNavigationOptions } from "./common"
 import { EditAdScreen } from "../screens/Advertisement/EditAd"
 import { UserProvider } from "../providers/UserProvider"
+import { ChatConversation, chatConversationOptions } from "../screens/Chat/ChatConversation"
 
 const HomeStack = createStackNavigator()
 
@@ -26,9 +27,17 @@ export const HomeStackScreen = () => {
         <HomeStack.Screen
           name={r.advertisementDetails.name}
           component={AdvertisementDetails}
+          options={{
+            ...defaultNavigationOptions,
+            title: r.advertisementDetails.title,
+          }}
+        />
+        <HomeStack.Screen
+          name={r.chatConversation.name}
+          component={ChatConversation}
           options={props => ({
             ...defaultNavigationOptions,
-            ...advertisementOptions(props),
+            ...chatConversationOptions(props)
           })}
         />
         <HomeStack.Screen

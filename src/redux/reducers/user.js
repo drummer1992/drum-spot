@@ -21,7 +21,7 @@ const signIn = (state, action) => ({
   }
 })
 
-const putTokenFromStorage = (state, action) => ({
+const collectToken = (state, action) => ({
   ...state,
   token: action.token,
 })
@@ -38,11 +38,11 @@ export default reduceReducers(
       {},
       loadReducer(t.SIGN_IN_USER),
       reducersMap({
-        [t.FETCH_INITIAL_TOKEN]: putTokenFromStorage,
+        [t.COLLECT_TOKEN]: collectToken,
       })
     ),
     favorites: reduceReducers(
-      {},
+      { map: {}, list: [] },
       loadReducer(t.ADD_TO_FAVORITES, enrichStateReducer),
       loadReducer(t.DELETE_FROM_FAVORITES, filterStateReducer),
       loadReducer(t.FETCH_FAVORITES, initStateReducer),
@@ -54,6 +54,6 @@ export const selectUser = state => state.user
 export const selectAuth = state => state.user.auth
 
 export const selectFavoritesState = state => ({
-  favorites: Object.values(state.user.favorites?.map || {}),
-  ...state.user.favorites,
+  favorites: Object.values(state.user?.favorites?.map || {}),
+  ...state.user?.favorites,
 })

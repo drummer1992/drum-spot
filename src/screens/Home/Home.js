@@ -7,40 +7,38 @@ import { useSelector } from "react-redux"
 import { selectAuth } from "../../redux/reducers/user"
 import { Advertisements } from "../Advertisement/Advertisements"
 
-export const HomeScreen = () => {
-  return <Advertisements />
-}
+export const HomeScreen = Advertisements
 
 export const homeScreenOptions = ({ navigation }) => {
   const { token } = useSelector(selectAuth)
 
-  const headerButtons = {
-    headerRight: () => (
-      <HeaderButtons
-        HeaderButtonComponent={props => <HeaderIcon {...props} IconComponent={Ionicons}/>}
-      >
-        <Item
-          title={r.chat.title}
-          iconName="chatbubble-outline"
-          onPress={() => navigation.navigate(r.chat.name)}
-        />
-      </HeaderButtons>
-    ),
-    headerLeft : () => (
-      <HeaderButtons
-        HeaderButtonComponent={props => <HeaderIcon {...props} IconComponent={Ionicons}/>}
-      >
-        <Item
-          title={r.favorites.title}
-          iconName="ios-star-outline"
-          onPress={() => navigation.navigate(r.favorites.name)}
-        />
-      </HeaderButtons>
-    )
-  }
-
   return {
     title: APP_NAME,
-    ...(token ? headerButtons : {}),
+    ...(token ?
+      {
+        headerRight: () => (
+          <HeaderButtons
+            HeaderButtonComponent={props => <HeaderIcon {...props} IconComponent={Ionicons}/>}
+          >
+            <Item
+              title={r.chat.title}
+              iconName="chatbubble-outline"
+              onPress={() => navigation.navigate(r.chat.name)}
+            />
+          </HeaderButtons>
+        ),
+        headerLeft : () => (
+          <HeaderButtons
+            HeaderButtonComponent={props => <HeaderIcon {...props} IconComponent={Ionicons}/>}
+          >
+            <Item
+              title={r.favorites.title}
+              iconName="ios-star-outline"
+              onPress={() => navigation.navigate(r.favorites.name)}
+            />
+          </HeaderButtons>
+        )
+      }
+      : {}),
   }
 }

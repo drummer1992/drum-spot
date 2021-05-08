@@ -1,12 +1,12 @@
 import createClient from "../../api/client"
 import { discardUserToken } from "../actions/user"
-import { HOST } from '@env'
+import c from '../../config'
 
 let client
 
 export const getClient = getState => {
   if (!client) {
-    client = createClient(HOST, getState().user.auth.token)
+    client = createClient(`${c.HOST}${c.API_PREFIX}`, getState().user.auth.token)
   }
 
   return client

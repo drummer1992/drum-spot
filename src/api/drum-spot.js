@@ -1,3 +1,5 @@
+import last from 'lodash/last'
+
 class DrumSpotAPI {
   constructor(request) {
     this.request = request
@@ -20,7 +22,7 @@ class DrumSpotAPI {
       const body = {
         uri : image.path,
         type: image.mime,
-        name: image.filename,
+        name: image.filename || last(image.path.split('/')),
       }
 
 
@@ -46,7 +48,7 @@ class DrumSpotAPI {
     const body = {
       uri : image.path,
       type: image.mime,
-      name: image.filename,
+      name: image.filename || last(image.path.split('/')),
     }
 
     formData.append(body.name, body)

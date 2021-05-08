@@ -11,14 +11,14 @@ const {
 } = createCollectionReducers('_id')
 
 const deletedImageReducer = (state, action) => {
-  const advertisement = state.map[action._id]
-
-  advertisement.images = advertisement.images.filter(img => img !== action.image)
-
   return {
-    ...state, map: {
+    ...state,
+    map: {
       ...state.map,
-      [action._id]: advertisement,
+      [action._id]: {
+        ...state.map[action._id],
+        images: state.map[action._id].images.filter(img => img !== action.image),
+      },
     }
   }
 }

@@ -63,9 +63,13 @@ export const ChatConversation = ({ route: { params: { participant } } }) => {
   }, [hasUnreadMessages])
 
   const handleMessageSend = () => {
-    dispatch(newMessage(conversation._id, input))
+    const trimmedMessage = input.trim()
 
-    setInput('')
+    if (trimmedMessage) {
+      dispatch(newMessage(conversation._id, input))
+
+      setInput('')
+    }
   }
 
   const moveContent = () => {

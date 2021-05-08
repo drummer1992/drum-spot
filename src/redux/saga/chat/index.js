@@ -1,10 +1,10 @@
 import { io } from 'socket.io-client'
-import { HOST } from '@env'
-import { select, takeEvery, put, all, call, actionChannel } from "redux-saga/effects"
-import { eventChannel } from "redux-saga"
-import { fulfilled, Type as t } from "../../types"
-import { selectAuth } from "../../reducers/user"
-import chatChannel from "./channel"
+import { select, takeEvery, put, all, call, actionChannel } from 'redux-saga/effects'
+import { eventChannel } from 'redux-saga'
+import { fulfilled, Type as t } from '../../types'
+import { selectAuth } from '../../reducers/user'
+import c from '../../../config'
+import chatChannel from './channel'
 import chatWatcher from './watcher'
 
 const mainChannel = channel => socket => {
@@ -31,9 +31,9 @@ export default function* () {
   yield takeEvery(channel, function* () {
     const { token } = yield select(selectAuth)
 
-    const socket = io(HOST, {
-      query: { token },
-      path : '/chat',
+    const socket = io(c.HOST, {
+      query     : { token },
+      path      : `${c.API_PREFIX}/chat`,
     })
 
     yield all([
